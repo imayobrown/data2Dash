@@ -57,8 +57,11 @@ WSGI_APPLICATION = 'data2Dash_django.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '2_Port',
+        'USER': 'root',
+        'PASSWORD': 'awsome143',
+        'HOST': 'localhost',
     }
 }
 

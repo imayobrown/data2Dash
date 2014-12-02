@@ -1,5 +1,5 @@
 """
-Django settings for data2Dash_django project.
+Django settings for data2Dash project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -57,12 +57,12 @@ WSGI_APPLICATION = 'data2Dash_django.wsgi.application'
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '2_Port',
-        'USER': 'root',
-        'PASSWORD': 'awsome143',
-        'HOST': 'localhost',
+    'default':{
+        'ENGINE': 'django.db.backends.sqlite3',
+        'Name': os.path.join(BASE_DIR,'data.db'),
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
     }
 }
 

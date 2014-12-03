@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dataServer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -56,10 +57,13 @@ WSGI_APPLICATION = 'data2Dash_django.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# Superuser for database: root
+# Password for superuser: root
+
 DATABASES = {
     'default':{
         'ENGINE': 'django.db.backends.sqlite3',
-        'Name': os.path.join(BASE_DIR,'data.db'),
+        'NAME': os.path.join(BASE_DIR,'data.db'),
         'USER': '',
         'PASSWORD': '',
         'HOST': '',

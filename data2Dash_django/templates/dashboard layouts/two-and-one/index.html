@@ -3,7 +3,7 @@
 <head>
   <title>data2Dash</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="static/assets/css/keen-dashboards.css">
+  <link rel="stylesheet" href="http://127.0.0.1:8000/static/keen dashboards/assets/css/keen-dashboards.css">
 </head>
 <body class="application">
 
@@ -16,18 +16,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="../">
+        <a class="navbar-brand" href="../home/">
           <span class="glyphicon glyphicon-chevron-left"></span>
         </a>
         <a class="navbar-brand" href="./">data2Dash</a>
       </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-left">
-          <li><a href="">Home</a></li>
-          <li><a href="">Team</a></li>
-          <li><a href="">Source</a></li>
-          <li><a href="">Community</a></li>
-		  <li><a href="">Technical Support</a></li>
+          <li><a href="../home/">Home</a></li>
         </ul>
       </div>
     </div>
@@ -39,13 +35,13 @@
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-title">
-            Graph 1
+            <b>Magnitude</b>
           </div>
           <div class="chart-stage">
             <div id="placeholder" style="width:803;height:350"></div>
           </div>
           <div class="chart-notes">
-            This is a sample text region to describe this chart.
+            This graph shows the magnitude attribute of each measurement.
           </div>
         </div>
       </div>
@@ -53,13 +49,13 @@
       <div class="col-sm-6">
         <div class="chart-wrapper">
           <div class="chart-title">
-            Graph 2
+            <b>Phase</b>
           </div>
           <div class="chart-stage">
             <img data-src="holder.js/100%x350/white">
           </div>
           <div class="chart-notes">
-            Notes go down here
+            This graph shows the phase attribute of each measurement.
           </div>
         </div>
       </div>
@@ -72,13 +68,13 @@
       <div class="col-sm-12">
         <div class="chart-wrapper">
           <div class="chart-title">
-            Graph 3
+            <b>Ratios, etc.</b>
           </div>
           <div class="chart-stage">
             <img data-src="holder.js/100%x150/white">
           </div>
           <div class="chart-notes">
-            Notes go down here
+            Notes about the graph.
           </div>
         </div>
       </div>
@@ -92,14 +88,14 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
-  <script src="static/assets/lib/holderjs/holder.js"></script>
-  <script src="static/flot/jquery.flot.js"></script>
+  <script src="http://127.0.0.1:8000/static/keen dashboards/assets/lib/holderjs/holder.js"></script>
+  <script src="http://127.0.0.1:8000/static/flot/jquery.flot.js"></script>
   <script>
     Holder.add_theme("white", { background:"#fff", foreground:"#a7a7a7", size:10 });
   </script>
 
-  <script src="static/assets/lib/keen-js/dist/keen.min.js"></script>
-  <script src="static/assets/js/meta.js"></script>
+  <script src="http://127.0.0.1:8000/static/keen dashboards/assets/lib/keen-js/dist/keen.min.js"></script>
+  <script src="http://127.0.0.1:8000/static/keen dashboards/assets/js/meta.js"></script>
 
 </body>
 </html>

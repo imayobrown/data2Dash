@@ -31,6 +31,18 @@ class Container_S2PData(object):
     S22_mag=[]
     S22_phase=[]
     
+    # Initialize trace lists. Format for graph trace data Traces = {"Trace1": [[x1,y1],[x2,y2],...],"Trace2": [[x1,y1],[x2,y2],...],...}
+    
+    Traces = {}
+    S11_mag_trace = []
+    S11_phase_trace = []
+    S21_mag_trace = []
+    S21_phase_trace = []
+    S12_mag_trace = []
+    S12_phase_trace = []
+    S22_mag_trace = []
+    S22_phase_trace = []
+    
     data = {}
     
     def __init__(self, data_id):
@@ -62,6 +74,14 @@ class Container_S2PData(object):
             self.S22_mag.append(float(dataset[7]))
             self.S22_phase.append(float(dataset[8]))
             
+        # Construct traces to be graphed by the front end. 
+        
+        for index in range(len(self.frequency_list)):
+            self.S11_mag_trace.append([self.frequency_list[index],self.S11_mag[index]])
+            self.S21_mag_trace.append([self.frequency_list[index],self.S21_mag[index]])
+            self.S12_mag_trace.append([self.frequency_list[index],self.S12_mag[index]])
+            self.S22_mag_trace.append([self.frequency_list[index],self.S22_mag[index]]) 
+            
         self.data['Header'] = header
         self.data['S11 Magnitude'] = self.S11_mag
         self.data['S11 Phase'] = self.S11_phase
@@ -71,6 +91,8 @@ class Container_S2PData(object):
         self.data['S12 Phase'] = self.S12_phase
         self.data['S22 Magnitude'] = self.S22_mag
         self.data['S22 Phase'] = self.S22_phase
+        self.Traces = {'S11 Magnitude Trace': self.S11_mag_trace,'S21 Magnitude Trace': self.S21_mag_trace,'S12 Magnitude Trace': self.S12_mag_trace,'S22 Magnitude Trace': self.S22_mag_trace}
+        self.data['Traces'] = self.Traces
 
     def retrieveData(self, data_id):
         """

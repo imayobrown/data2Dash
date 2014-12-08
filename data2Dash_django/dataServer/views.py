@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from dataServer.models import S2PData 
 import json
 
@@ -110,6 +111,18 @@ class Container_S2PData(object):
     def serializeData_JSON(self):
         data_JSON = json.dumps(self.data, indent=4, sort_keys=True)
         return data_JSON
+    
+    
+
+def data_get(request):
+    """
+    Function to respond to HTTP request and get data from the database utilizing the Container_S2PData class.
+    """
+    
+    container = Container_S2PData(1)
+    data_JSON = container.serializeData_JSON()
+    return HttpResponse(data_JSON, content_type="application/json")
+    
 
 
     

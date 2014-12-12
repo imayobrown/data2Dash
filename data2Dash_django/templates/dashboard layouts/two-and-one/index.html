@@ -38,7 +38,7 @@
             <b>Magnitude</b>
           </div>
           <div class="chart-stage">
-            <div id="placeholder" style="width:803;height:350"></div>
+            <div id="placeholder" style="width:803px;height:350px"></div>
           </div>
           <div class="chart-notes">
             This graph shows the magnitude attribute of each measurement.
@@ -96,6 +96,14 @@
 
   <script src="http://127.0.0.1:8000/static/keen dashboards/assets/lib/keen-js/dist/keen.min.js"></script>
   <script src="http://127.0.0.1:8000/static/keen dashboards/assets/js/meta.js"></script>
+  <script>
+  $( document ).ready(function(){
+		$.get("http://127.0.0.1:8000/data_get/", function( data ) {
+			//alert(data["Traces"]["S21 Magnitude Trace"].length);
+			$.plot($("#placeholder"), [ data["Traces"]["S21 Magnitude Trace"], data["Traces"]["S11 Magnitude Trace"], data["Traces"]["S12 Magnitude Trace"], data["Traces"]["S22 Magnitude Trace"] ]);
+		},"json");
+	})
+  </script>
 
 </body>
 </html>

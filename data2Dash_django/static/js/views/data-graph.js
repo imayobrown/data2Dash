@@ -1,5 +1,6 @@
 define(['jquery', 'underscore', 'backbone',
-        'text!templates/data-graph.html', 'flot'],
+        'text!templates/data-graph.html', 'flot',
+        'flot-resize'],
 		function($, _, Backbone, Template, Flot) {
 
 	return Backbone.View.extend({

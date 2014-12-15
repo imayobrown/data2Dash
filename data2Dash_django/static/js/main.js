@@ -2,7 +2,8 @@ require.config({
 	
 	shim: {
 		bootstrap: ['jquery'],
-		flot: ['jquery']
+		flot: ['jquery'],
+		'flot-resize': ['jquery', 'flot']
 	},
 	
 	paths: {
@@ -11,6 +12,7 @@ require.config({
 		backbone: 'plugins/backbone',
 		underscore: 'plugins/underscore-min',
 		flot: 'plugins/jquery.flot',
+		'flot-resize': 'plugins/jquery.flot.resize',
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph'

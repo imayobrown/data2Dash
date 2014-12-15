@@ -11,7 +11,9 @@ require.config({
 		backbone: 'plugins/backbone',
 		underscore: 'plugins/underscore-min',
 		flot: 'plugins/jquery.flot',
-		router: 'routers/router'
+		router: 'routers/router',
+		text: 'plugins/text',
+		'data-graph': 'views/data-graph'
 	}
 });
 

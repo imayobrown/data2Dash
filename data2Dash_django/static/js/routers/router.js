@@ -1,5 +1,5 @@
-define(['underscore', 'backbone'],
-		function(_, Backbone) {
+define(['underscore', 'backbone', 'data-graph'],
+		function(_, Backbone, DataGraph) {
 
 	return Backbone.Router.extend({
 
@@ -15,7 +15,15 @@ define(['underscore', 'backbone'],
 		},
 		
 		graph: function(id) {
-			console.log('graph', id);
+			var graph;
+			
+			if(!$('body > .application > .data-graph').length) {
+				Backbone.trigger('global:app-view:close');
+				graph = new DataGraph();
+				$('body > .application').append(graph.render());
+			}
+			
+			Backbone.trigger('data-graph:retrieve-data', id);
 		},
 		
 		routeDefault: function() {

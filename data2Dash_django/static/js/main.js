@@ -1,14 +1,17 @@
 require.config({
 	
 	shim: {
-		bootstrap: ['jquery']
+		bootstrap: ['jquery'],
+		flot: ['jquery']
 	},
 	
 	paths: {
 		jquery: 'plugins/jquery.min',
 		bootstrap: 'plugins/bootstrap.min',
 		backbone: 'plugins/backbone',
-		underscore: 'plugins/underscore-min'
+		underscore: 'plugins/underscore-min',
+		flot: 'plugins/jquery.flot',
+		router: 'routers/router'
 	}
 });
 

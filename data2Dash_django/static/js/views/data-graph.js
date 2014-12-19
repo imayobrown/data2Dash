@@ -1,7 +1,9 @@
 define(['jquery', 'underscore', 'backbone',
         'text!templates/data-graph.html', 'flot',
-        'data-model', 'flot-resize'],
-		function($, _, Backbone, Template, Flot, DataModel) {
+        'data-model', 'flot-series-collection-view',
+        'flot-resize'],
+		function($, _, Backbone, Template, Flot, DataModel,
+					FlotSeriesCollectionView) {
 
 	return Backbone.View.extend({
 
@@ -21,7 +23,13 @@ define(['jquery', 'underscore', 'backbone',
 		},
 		
 		render: function() {
+			var seriesCollectionView;
+			
 			this.$el.html(this.template());
+			
+			seriesCollectionView = new FlotSeriesCollectionView();
+			this.$('.chart-notes').append(seriesCollectionView.render());
+			
 			return this.$el;
 		},
 		

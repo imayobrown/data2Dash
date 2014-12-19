@@ -16,6 +16,7 @@ require.config({
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph',
+		'flot-series-collection-view': 'views/flot-series-collection-view',
 		'data-model': 'models/data-model',
 		'flot-series': 'models/flot-series',
 		'flot-series-collection': 'collections/flot-series-collection'

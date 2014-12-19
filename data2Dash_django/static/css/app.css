@@ -1,4 +1,24 @@
+@font-face {
+	font-family: 'Exo2';
+	src: url('fonts/Exo2-Regular.ttf');
+}
+
 div.app-view.data-graph > div.col-lg-12 >
 div.chart-wrapper > div.chart-stage {
-	height: 500px;
+	height: 400px;
+}
+
+.chart-stage {
+	position: relative;
+}
+
+div.logo {
+	top: 0; right: 0; bottom: 0; left: 0;
+	margin: auto;
+	position: absolute;
+	overflow: auto;
+	height: 100px;
+	width: 200px;
+	font-family: Exo2;
+	font-size: xx-large;
 }

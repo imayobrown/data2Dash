@@ -29,29 +29,26 @@ require(['app', 'backbone'], function(App, Backbone) {
 	};
 	
 	Backbone.sync = function(method, model, options) {
-		console.log(arguments);
+		var jqXHR;
 		
-		/*
-		$.ajax({
+		if(options.view.currentRequest) {
+			options.view.currentRequest.abort();
+		}
+		
+		jqXHR = $.ajax({
 			url: '/static/json/example.json',
 			dataType: 'json',
 			success: function(data) {
-				self.model.set(data);
-				var plot;
+				model.set(data);
+			},
+			error: function() {
 				
-				plot = [];
-				_.each(data.Traces, function(dataPoints, name) {
-					plot.push({
-						label: name,
-						data: dataPoints
-					});
-				});
-				
-				self.$('.chart-stage').plot(plot);
-				console.log(data);
 			}
+		}).done(function() {
+			options.view.currentRequest = null;
 		});
-		*/
+		
+		options.view.currentRequest = jqXHR;
 	};
 	
 	App.start();

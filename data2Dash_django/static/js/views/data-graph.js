@@ -9,6 +9,8 @@ define(['jquery', 'underscore', 'backbone',
 		
 		template: _.template(Template),
 		
+		currentRequest: null,
+		
 		initialize: function(options) {
 			_.each(options, function(value, key) {
 				this[key] = value;
@@ -40,7 +42,7 @@ define(['jquery', 'underscore', 'backbone',
 		
 		'data-graph:retrieve-data': function(id) {
 			this.model.set({id: id});
-			this.model.fetch();
+			this.model.fetch({view: this});
 		}
 	});
 });

@@ -16,7 +16,9 @@ require.config({
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph',
-		'data-model': 'models/data-model'
+		'data-model': 'models/data-model',
+		'flot-series': 'models/flot-series',
+		'flot-series-collection': 'collections/flot-series-collection'
 	}
 });
 

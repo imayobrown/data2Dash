@@ -8,6 +8,10 @@ define(['jquery', 'underscore', 'backbone',
 
 		template: _.template(Template),
 		
+		events: {
+			'click input.select-all': 'toggleAll'
+		},
+		
 		initialize: function(options) {
 			_.each(options, function(value, key) {
 				this[key] = value;
@@ -36,20 +40,41 @@ define(['jquery', 'underscore', 'backbone',
 			}
 		},
 		
+		updateSelectAll: function(allSelected) {
+			this.$('input.select-all').prop('checked', allSelected);
+		},
+		
+		toggleAll: function(e) {
+			var active;
+			
+			active = e.currentTarget.checked;
+			
+			_.each(this.collection.models, function(model, index) {
+				model.set({active: active});
+			});
+			
+			Backbone.trigger('flot-series:updated');
+		},
+		
 		globalEventHandler: function(event, data) {
 			if(this[event]) this[event](data);
 		},
 		
 		'flot-series-collection:series-updated': function(data) {
+			this.updateSelectAll(true);
 			this.collection.set(data);
 		},
 		
 		'flot-series:updated': function() {
-			var seriesCollection;
+			var seriesCollection, active, allSelected;
 			
 			seriesCollection = [];
+			active = this.collection.where({active: true});
+			allSelected = active.length/this.collection.length == 1;
 			
-			_.each(this.collection.where({active: true}), function(model, index) {
+			this.updateSelectAll(allSelected);
+			
+			_.each(active, function(model, index) {
 				seriesCollection.push(model.toJSON());
 			});
 			

@@ -32,14 +32,23 @@ define(['jquery', 'underscore', 'backbone',
 		},
 		
 		toggleActive: function(e) {
-			this.model.set({active: e.currentTarget.checked});
+			this.model.set({active: e.currentTarget.checked}, {silent: true});
 			Backbone.trigger('flot-series:updated');
 		},
 		
+		updateToggle: function(active) {
+			this.$('.toggle-active').prop('checked', active);
+		},
+		
 		modelEventHandler: function(event) {
+			var active;
+			
 			switch(event) {
 				case 'remove':
 					this.close();
+				case 'change:active':
+					active = arguments[2];
+					this.updateToggle(active);
 				default:
 					break;
 			}

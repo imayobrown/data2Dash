@@ -9,6 +9,10 @@ define(['jquery', 'underscore', 'backbone',
 
 		className: 'row app-view data-graph',
 		
+		events: {
+			'plothover':  'displayOnHover'
+		},
+		
 		template: _.template(Template),
 		
 		currentRequest: null,
@@ -28,6 +32,15 @@ define(['jquery', 'underscore', 'backbone',
 			
 			seriesCollectionView = new FlotSeriesCollectionView();
 			this.$('.chart-notes').append(seriesCollectionView.render());
+			
+			$('<div class="hover-tooltip"></div>').css({
+				position: 'absolute',
+				display: 'none',
+				border: '1px solid #fdd',
+				padding: '2px',
+				'background-color': '#fee',
+				opacity: 0.95
+			}).appendTo(this.$el);
 			
 			return this.$el;
 		},
@@ -50,6 +63,21 @@ define(['jquery', 'underscore', 'backbone',
 			Backbone.trigger('flot-series-collection:series-updated', seriesCollection);
 		},
 		
+		displayOnHover: function(event, pos, item) {
+			if(item) {
+				var x, y;
+				
+				x = item.datapoint[0].toFixed(2);
+				y = item.datapoint[1].toFixed(2);
+				
+				this.$('.hover-tooltip').html('x: ' + x + ', y: ' + y)
+					.css({top: item.pageY+5, left: item.pageX+5})
+					.fadeIn(200);
+			} else {
+				this.$('.hover-tooltip').hide();
+			}
+		},
+		
 		globalEventHandler: function(event, data) {
 			if(this[event]) this[event](data);
 		},
@@ -59,7 +87,11 @@ define(['jquery', 'underscore', 'backbone',
 		},
 		
 		'data-graph:series-updated': function(data) {
-			this.$('.chart-stage').plot(data);
+			this.$('.chart-stage').plot(data, {
+				grid: {
+					hoverable: true
+				}
+			});
 		},
 		
 		'data-graph:retrieve-data': function(id) {

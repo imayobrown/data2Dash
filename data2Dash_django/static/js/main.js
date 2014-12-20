@@ -16,6 +16,7 @@ require.config({
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph',
+		'flot-series-view': 'views/flot-series-view',
 		'flot-series-collection-view': 'views/flot-series-collection-view',
 		'data-model': 'models/data-model',
 		'flot-series': 'models/flot-series',
@@ -43,6 +44,7 @@ require(['app', 'backbone'], function(App, Backbone) {
 			dataType: 'json',
 			success: function(data) {
 				model.set(data);
+				Backbone.trigger('data-graph:model-updated');
 			},
 			error: function() {
 				

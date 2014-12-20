@@ -12,13 +12,13 @@ define(['jquery', 'underscore', 'backbone',
 		template: _.template(Template),
 		
 		currentRequest: null,
+		plot: null,
 		
 		initialize: function(options) {
 			_.each(options, function(value, key) {
 				this[key] = value;
 			}, this);
 			this.model = new DataModel();
-			this.listenTo(this.model, 'all', this.modelEventHandler);
 			this.listenTo(Backbone, 'all', this.globalEventHandler);
 		},
 		
@@ -33,19 +33,34 @@ define(['jquery', 'underscore', 'backbone',
 			return this.$el;
 		},
 		
-		modelEventHandler: function(event) {
-			switch(event) {
-				case 'change:Header':
-					break;
-				case 'change:Traces':
-					break;
-				default:
-					break;
-			};
+		updateSeries: function() {
+			var seriesCollection, color;
+			
+			color = 0;
+			seriesCollection = [];
+			
+			_.each(this.model.get('Traces'), function(data, label) {
+				seriesCollection.push({
+					label: label,
+					data: data,
+					color: color++
+				});
+			});
+			
+			Backbone.trigger('data-graph:series-updated', seriesCollection);
+			Backbone.trigger('flot-series-collection:series-updated', seriesCollection);
 		},
 		
 		globalEventHandler: function(event, data) {
 			if(this[event]) this[event](data);
+		},
+		
+		'data-graph:model-updated': function() {
+			this.updateSeries();
+		},
+		
+		'data-graph:series-updated': function(data) {
+			this.$('.chart-stage').plot(data);
 		},
 		
 		'data-graph:retrieve-data': function(id) {

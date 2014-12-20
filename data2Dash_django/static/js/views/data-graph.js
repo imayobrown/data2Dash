@@ -83,6 +83,7 @@ define(['jquery', 'underscore', 'backbone',
 		},
 		
 		'data-graph:model-updated': function() {
+			this.$('.chart-title').html(this.model.get('Header').join());
 			this.updateSeries();
 		},
 		

@@ -12,7 +12,6 @@ define(['jquery', 'underscore', 'backbone',
 		template: _.template(Template),
 		
 		currentRequest: null,
-		plot: null,
 		
 		initialize: function(options) {
 			_.each(options, function(value, key) {

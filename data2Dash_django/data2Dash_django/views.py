@@ -15,11 +15,3 @@ def home(request):
 def application_start(request):
     html = render(request,'dashboard layouts/two-and-one/index.html',{})
     return HttpResponse(html)
-
-def ajax_test(request):
-    html = render(request,'ajax_test.html',{})
-    return HttpResponse(html)
-
-def ajax_info(request):
-    text = "<h1><b>This is the changed text.</b></h1>"
-    return HttpResponse(text)

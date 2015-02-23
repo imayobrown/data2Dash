@@ -7,7 +7,7 @@ import json
 
 class Container_S2PData(object):
     """
-    This is a container class for retrieving, holding and manipulating the data found in a .s2p file string retrieved fromt he database.
+    This is a container class for retrieving, holding and manipulating the data found in a .s2p file string retrieved from the database.
     
     Upon instantiation the a data record is retrieved from the database and manipulated to extract all of the relevant data that it contains
     in order to expose it in a workable format. 
@@ -122,7 +122,39 @@ def data_get(request):
     container = Container_S2PData(1)
     data_JSON = container.serializeData_JSON()
     return HttpResponse(data_JSON, content_type="application/json")
+
+def userList_get(request):
+    """
+    This view generates a json file that is a list of all the unique users located in the database.
+    """
+    userArray = []
+    databaseReturn = S2PData.objects.values("user").distinct()
+    for row in databaseReturn:
+        userArray.append(row['user'])
     
+    userDictionary = {'Users': userArray}
+    
+    users_JSON = json.dumps(userDictionary, indent=4, sort_keys=True)
+    
+    return HttpResponse(users_JSON, content_type="application/json")
 
-
+def userEntries_get(request, user):
+    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment').filter(user=user)
+    
+    entries = []
+    
+    for row in databaseReturn:
+        entry = {'id':'','Unit':'','Serial Number':'','Datetime':'','Comment':''}
+        entry['id'] = row['ids2p_data']
+        entry['Unit'] = row['unit']
+        entry['Serial Number'] = row['serial_number']
+        entry['Datetime'] = row['datetime'].strftime('%m/%d/%Y %H:%M:%S')
+        entry['Comment'] = row['comment']
+        entries.append(entry)
+    
+    userEntries = {user.replace("_"," "):entries}
+    
+    userEntries_JSON = json.dumps(userEntries, indent=4, sort_keys=True)
+    return HttpResponse(userEntries_JSON, content_type="application/json")
+    
     

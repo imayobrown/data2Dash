@@ -1,11 +1,12 @@
-define(['underscore', 'backbone', 'data-graph'],
-		function(_, Backbone, DataGraph) {
+define(['underscore', 'backbone', 'data-graph', 'user-table'],
+		function(_, Backbone, DataGraph, UserTable) {
 
 	return Backbone.Router.extend({
 
 		routes: {
 			'graph(/:id)': 'graph',
-			'*default': 'routeDefault'
+			'*defaults': 'routeDefault',
+			'table': 'table'
 		},
 		
 		initialize: function(options) {
@@ -24,11 +25,23 @@ define(['underscore', 'backbone', 'data-graph'],
 			}
 			
 			Backbone.trigger('data-graph:retrieve-data', id);
+			Backbone.history.navigate('graph');
+		},
+		
+		table: function() {
+			var table;
+			
+			table = new UserTable();
+			$('body > .table').append(table.render());
+			
+			Backbone.trigger('user-table:retrieve-data');
+			Backbone.history.navigate('table');
 		},
 		
 		routeDefault: function() {
-			this.graph();
-			Backbone.history.navigate("graph");
+			this.table();
+			//this.graph();
+			//Backbone.history.navigate("graph");
 		}
 	});
 });

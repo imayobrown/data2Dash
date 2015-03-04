@@ -156,5 +156,13 @@ def userEntries_get(request, user):
     
     userEntries_JSON = json.dumps(userEntries, indent=4, sort_keys=True)
     return HttpResponse(userEntries_JSON, content_type="application/json")
+
+def userEntry_get(request):
+    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment','user').filter(ids2p_data=8)
     
+    entry = databaseReturn[0]
+    entry['datetime'] = databaseReturn[0]['datetime'].strftime('%m/%d/%Y %H:%M:%S')
+    
+    entry_JSON = json.dumps(entry,indent=4,sort_keys=True)
+    return HttpResponse(entry_JSON,content_type="application/json")
     

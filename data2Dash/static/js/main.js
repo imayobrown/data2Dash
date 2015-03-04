@@ -16,10 +16,12 @@ require.config({
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph',
+		'user-table': 'views/user-table',
 		'flot-series-view': 'views/flot-series-view',
 		'flot-series-collection-view': 'views/flot-series-collection-view',
 		'data-model': 'models/data-model',
 		'flot-series': 'models/flot-series',
+		'user-save': 'models/user-save',
 		'flot-series-collection': 'collections/flot-series-collection'
 	}
 });
@@ -31,16 +33,16 @@ require(['app', 'backbone'], function(App, Backbone) {
 		this.remove();
 		this.unbind();
 	};
-	
+	/*
 	Backbone.sync = function(method, model, options) {
 		var jqXHR;
-		
+		alert('global fetch executed');
 		if(options.view.currentRequest) {
 			options.view.currentRequest.abort();
 		}
 		
 		jqXHR = $.ajax({
-			url: '/static/json/example.json',
+			url: '/data_get/',
 			dataType: 'json',
 			success: function(data) {
 				model.set(data);
@@ -55,6 +57,6 @@ require(['app', 'backbone'], function(App, Backbone) {
 		
 		options.view.currentRequest = jqXHR;
 	};
-	
+	*/
 	App.start();
 });

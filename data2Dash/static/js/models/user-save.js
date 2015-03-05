@@ -9,6 +9,8 @@ define(['underscore','backbone'],
 			};
 		},
 		
+		user: '',
+		
 		initialize: function(attributes, options) {
 			_.each(options, function(value, key) {
 				this[key] = value;
@@ -23,7 +25,8 @@ define(['underscore','backbone'],
 			}
 			
 			jqXHR = $.ajax({
-				url: '/user/Ian_Brown/',
+				//url: '/user/'.concat(this.user,'/'),
+				url: '/user/',
 				datatype: 'json',
 				success: function(data){
 					model.set(data);

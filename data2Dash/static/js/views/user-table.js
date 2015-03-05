@@ -29,7 +29,8 @@ define(['jquery','underscore','backbone',
 			if(this[event]) this[event](data);
 		},
 		
-		'user-table:retrieve-data': function()	{
+		'user-table:retrieve-data': function(user)	{
+			this.model.set({user: user});
 			this.model.fetch({view: this});
 		},
 		

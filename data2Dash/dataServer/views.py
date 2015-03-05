@@ -127,12 +127,17 @@ def userList_get(request):
     """
     This view generates a json file that is a list of all the unique users located in the database.
     """
-    userArray = []
-    databaseReturn = S2PData.objects.values("user").distinct()
+    databaseReturn = S2PData.objects.values('user','unit','serial_number','comment')
+    entries = []
     for row in databaseReturn:
-        userArray.append(row['user'])
+        entry = []
+        entry.append(row['user'].replace("_", " "))
+        entry.append(row['unit'])
+        entry.append(row['serial_number'])
+        entry.append(row['comment'])
+        entries.append(entry)
     
-    userDictionary = {'Users': userArray}
+    userDictionary = {'data': entries}
     
     users_JSON = json.dumps(userDictionary, indent=4, sort_keys=True)
     

@@ -6,7 +6,7 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 		routes: {
 			'graph(/:id)': 'graph',
 			'*defaults': 'routeDefault',
-			'table': 'table'
+			'table(/:user)': 'table'
 		},
 		
 		initialize: function(options) {
@@ -28,15 +28,14 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 			Backbone.history.navigate('graph');
 		},
 		
-		table: function() {
+		table: function(user) {
 			var table;
 			
 			table = new UserTable();
 			$('body > .table').append(table.render());
 			
-			Backbone.trigger('user-table:retrieve-data');
-			//$('.usertable').DataTable();
-			//Backbone.history.navigate('table');
+			Backbone.trigger('user-table:retrieve-data', user);
+			Backbone.history.navigate('table');
 		},
 		
 		routeDefault: function() {

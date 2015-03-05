@@ -10,8 +10,6 @@ define(['underscore', 'backbone'],
 			}
 		},
 		
-		//url: '/data_get/',
-		
 		initialize: function(attributes, options) {
 			_.each(options, function(value, key) {
 				this[key] = value;

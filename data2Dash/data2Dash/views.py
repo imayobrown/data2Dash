@@ -15,3 +15,7 @@ def home(request):
 def application_start(request):
     html = render(request,'dashboard layouts/two-and-one/index.html',{})
     return HttpResponse(html)
+
+def tableTest(request):
+    html = render(request,'table.html',{})
+    return HttpResponse(html)

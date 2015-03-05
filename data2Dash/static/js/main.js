@@ -3,7 +3,8 @@ require.config({
 	shim: {
 		bootstrap: ['jquery'],
 		flot: ['jquery'],
-		'flot-resize': ['jquery', 'flot']
+		'flot-resize': ['jquery', 'flot'],
+		//datatables: ['jquery']
 	},
 	
 	paths: {
@@ -13,6 +14,7 @@ require.config({
 		underscore: 'plugins/underscore-min',
 		flot: 'plugins/jquery.flot',
 		'flot-resize': 'plugins/jquery.flot.resize',
+		'datatables': 'plugins/jquery.dataTables',
 		router: 'routers/router',
 		text: 'plugins/text',
 		'data-graph': 'views/data-graph',

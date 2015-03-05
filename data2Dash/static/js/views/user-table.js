@@ -1,6 +1,6 @@
 define(['jquery','underscore','backbone',
-        'text!templates/user-table.html','user-save'],
-		function($,_,Backbone,Template,UserSave){
+        'text!templates/user-table.html','user-save', 'datatables'],
+		function($,_,Backbone,Template,UserSave, DataTable){
 	
 	return Backbone.View.extend({
 		
@@ -35,6 +35,7 @@ define(['jquery','underscore','backbone',
 		
 		'user-table:model-updated': function() {
 			//Is there better way to construct row?
+			/*
 			var startTablerow = '<tr>';
 			var endTablerow='</tr>';
 			var startTabledata = '<td>';
@@ -45,6 +46,19 @@ define(['jquery','underscore','backbone',
 			var comment = startTabledata.concat(this.model.get('comment'),endTabledata);
 			
 			this.$('.usertable').append(startTablerow.concat(user,unit,serialNumber,comment,endTablerow));
+			*/
+			
+			
+			var columns = [
+			               {'title': 'User'},
+			               {'title': 'Unit'},
+			               {'title': 'Serial Number'},
+			               {'title': 'Comment'}
+			               ];
+			var tableData = {'data': this.model.get('data'), 'columns': columns};
+			this.$('.usertable').dataTable(tableData);
+			
+			
 		},
 		
 	});

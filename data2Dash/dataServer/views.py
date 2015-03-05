@@ -143,16 +143,25 @@ def userEntries_get(request, user):
     
     entries = []
     
+    #for row in databaseReturn:
+    #    entry = {'id':'','Unit':'','Serial Number':'','Datetime':'','Comment':''}
+    #    entry['id'] = row['ids2p_data']
+    #    entry['Unit'] = row['unit']
+    #    entry['Serial Number'] = row['serial_number']
+    #    entry['Datetime'] = row['datetime'].strftime('%m/%d/%Y %H:%M:%S')
+    #    entry['Comment'] = row['comment']
+    #    entries.append(entry)
+    
     for row in databaseReturn:
-        entry = {'id':'','Unit':'','Serial Number':'','Datetime':'','Comment':''}
-        entry['id'] = row['ids2p_data']
-        entry['Unit'] = row['unit']
-        entry['Serial Number'] = row['serial_number']
-        entry['Datetime'] = row['datetime'].strftime('%m/%d/%Y %H:%M:%S')
-        entry['Comment'] = row['comment']
+        entry = []
+        entry.append(user.replace("_"," "))
+        entry.append(row['unit'])
+        entry.append(row['serial_number'])
+        entry.append(row['comment'])
         entries.append(entry)
     
-    userEntries = {user.replace("_"," "):entries}
+    #userEntries = {user.replace("_"," "):entries}
+    userEntries = {'data':entries}
     
     userEntries_JSON = json.dumps(userEntries, indent=4, sort_keys=True)
     return HttpResponse(userEntries_JSON, content_type="application/json")

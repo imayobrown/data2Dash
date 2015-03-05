@@ -5,12 +5,7 @@ define(['underscore','backbone'],
 		
 		defaults: function() {
 			return {
-				user: '',
-				comment: '',
-				datetime: '',
-				serial_number: '',
-				unit: '',
-				ids2p_data: 0
+				'data': []
 			};
 		},
 		
@@ -28,7 +23,7 @@ define(['underscore','backbone'],
 			}
 			
 			jqXHR = $.ajax({
-				url: '/entry/',
+				url: '/user/Ian_Brown/',
 				datatype: 'json',
 				success: function(data){
 					model.set(data);

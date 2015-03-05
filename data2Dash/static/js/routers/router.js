@@ -1,5 +1,5 @@
-define(['underscore', 'backbone', 'data-graph', 'user-table'],
-		function(_, Backbone, DataGraph, UserTable) {
+define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
+		function(_, Backbone, DataGraph, UserTable, DataTable) {
 
 	return Backbone.Router.extend({
 
@@ -35,7 +35,8 @@ define(['underscore', 'backbone', 'data-graph', 'user-table'],
 			$('body > .table').append(table.render());
 			
 			Backbone.trigger('user-table:retrieve-data');
-			Backbone.history.navigate('table');
+			//$('.usertable').DataTable();
+			//Backbone.history.navigate('table');
 		},
 		
 		routeDefault: function() {

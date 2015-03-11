@@ -15,4 +15,4 @@ class S2PData(models.Model):
         db_table = 's2p_data'
         
     def __unicode__(self):
-        return "Unit: " + self.unit + "Serial Number: " + self.serial_number + "Comment: " + self.comment
+        return " id: "+str(self.ids2p_data)+" User: "+self.user+" Unit: " + self.unit + " Serial Number: " + self.serial_number + " Comment: " + self.comment

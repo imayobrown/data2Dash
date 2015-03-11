@@ -57,10 +57,11 @@ class Container_S2PData(object):
         
         # Splits the dataString into a list of lines. Each row is a data point (except for the first 5 lines which are the file header).
         dataString_splitlines = dataString.splitlines()
-    
+        headerIndex = dataString_splitlines.index("# Hz S  dB   R 1") + 1
+        
         # Splits information from dataString into a header component and a data component. This way information can be extracted separately in a uniform manner.
-        header = dataString_splitlines[:6] # Header lines from the .s2p file
-        rawdata = dataString_splitlines[6:] # Numeric data found in the s2p file
+        header = dataString_splitlines[:headerIndex] # Header lines from the .s2p file
+        rawdata = dataString_splitlines[headerIndex:] # Numeric data found in the s2p file
         
         # Extract all of the data and place it into its respective container.
         for point in rawdata:
@@ -114,12 +115,12 @@ class Container_S2PData(object):
     
     
 
-def data_get(request):
+def data_get(request, ids2p_data=1):
     """
     Function to respond to HTTP request and get data from the database utilizing the Container_S2PData class.
     """
     
-    container = Container_S2PData(1)
+    container = Container_S2PData(ids2p_data)
     data_JSON = container.serializeData_JSON()
     return HttpResponse(data_JSON, content_type="application/json")
 
@@ -127,10 +128,11 @@ def userList_get(request):
     """
     This view generates a json file that is a list of all the unique users located in the database.
     """
-    databaseReturn = S2PData.objects.values('user','unit','serial_number','comment')
+    databaseReturn = S2PData.objects.values('ids2p_data','user','unit','serial_number','comment')
     entries = []
     for row in databaseReturn:
         entry = []
+        entry.append(row['ids2p_data'])
         entry.append(row['user'].replace("_", " "))
         entry.append(row['unit'])
         entry.append(row['serial_number'])

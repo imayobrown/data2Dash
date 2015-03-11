@@ -25,7 +25,6 @@ define(['underscore','backbone'],
 			}
 			
 			jqXHR = $.ajax({
-				//url: '/user/'.concat(this.user,'/'),
 				url: '/user/',
 				datatype: 'json',
 				success: function(data){

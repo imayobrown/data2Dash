@@ -6,7 +6,7 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 		routes: {
 			'graph(/:id)': 'graph',
 			'*defaults': 'routeDefault',
-			'table(/:user)': 'table'
+			'table': 'table'
 		},
 		
 		initialize: function(options) {
@@ -17,6 +17,7 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 		
 		graph: function(id) {
 			var graph;
+			var graphString = 'graph';
 			
 			if(!$('body > .application > .data-graph').length) {
 				Backbone.trigger('global:app-view:close');
@@ -25,23 +26,25 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 			}
 			
 			Backbone.trigger('data-graph:retrieve-data', id);
-			Backbone.history.navigate('graph');
+			Backbone.history.navigate(graphString.concat('/',id));
 		},
 		
-		table: function(user) {
+		table: function() {
+			//user = typeof user !== 'undefined' ? user : ""; //This line sets a default value for user if one is not supplied.
 			var table;
+			if (!$('.table-wrapper').length){
+				Backbone.trigger('global:app-view:close');
+				table = new UserTable();
+				$('body > .table').append(table.render());
+				Backbone.trigger('user-table:retrieve-data');
+			}
 			
-			table = new UserTable();
-			$('body > .table').append(table.render());
-			
-			Backbone.trigger('user-table:retrieve-data', user);
 			Backbone.history.navigate('table');
 		},
 		
 		routeDefault: function() {
 			this.table();
-			//this.graph();
-			//Backbone.history.navigate("graph");
+			Backbone.history.navigate('table');
 		}
 	});
 });

@@ -18,13 +18,14 @@ define(['underscore', 'backbone'],
 		
 		sync: function(method, model, options) {
 			var jqXHR;
+			var url = '/data_get/'.concat(this.id);
 			
 			if(options.view.currentRequest) {
 				options.view.currentRequest.abort();
 			}
 			
 			jqXHR = $.ajax({
-				url: '/data_get/',
+				url: url,
 				dataType: 'json',
 				success: function(data) {
 					model.set(data);

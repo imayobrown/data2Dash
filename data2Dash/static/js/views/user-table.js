@@ -10,6 +10,12 @@ define(['jquery','underscore','backbone',
 		
 		currentRequest: null,
 		
+		table: DataTable.Api,
+		
+		events: {
+			'change input': 'user-table:input-changed',
+		},
+		
 		initialize: function(options) {
 			_.each(options, function(value, key) {
 				this[key] = value;
@@ -19,7 +25,6 @@ define(['jquery','underscore','backbone',
 		},
 		
 		render: function(){
-			
 			this.$el.html(this.template());
 			
 			return this.$el;
@@ -29,38 +34,21 @@ define(['jquery','underscore','backbone',
 			if(this[event]) this[event](data);
 		},
 		
-		'user-table:retrieve-data': function(user)	{
-			this.model.set({user: user});
+		'user-table:retrieve-data': function()	{
 			this.model.fetch({view: this});
 		},
 		
 		'user-table:model-updated': function() {
-			//Is there better way to construct row?
-			/*
-			var startTablerow = '<tr>';
-			var endTablerow='</tr>';
-			var startTabledata = '<td>';
-			var endTabledata= '</td>';
-			var user = startTabledata.concat(this.model.get('user'),endTabledata);
-			var unit = startTabledata.concat(this.model.get('unit'),endTabledata);
-			var serialNumber = startTabledata.concat(this.model.get('serial_number'),endTabledata);
-			var comment = startTabledata.concat(this.model.get('comment'),endTabledata);
-			
-			this.$('.usertable').append(startTablerow.concat(user,unit,serialNumber,comment,endTablerow));
-			*/
-			
-			
 			var columns = [
+			               {'title': 'ID'},
 			               {'title': 'User'},
 			               {'title': 'Unit'},
 			               {'title': 'Serial Number'},
 			               {'title': 'Comment'}
 			               ];
 			var tableData = {'data': this.model.get('data'), 'columns': columns};
-			this.$('.usertable').dataTable(tableData);
-			
-			
-		},
+			this.table = this.$('.usertable').DataTable(tableData);
+		}
 		
 	});
 });

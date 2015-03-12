@@ -1,6 +1,6 @@
 define(['jquery','underscore','backbone',
-        'text!templates/user-table.html','user-save', 'datatables'],
-		function($,_,Backbone,Template,UserSave, DataTable){
+        'text!templates/user-table.html','user-save', 'datatables','router'],
+		function($,_,Backbone,Template,UserSave, DataTable, Router){
 	
 	return Backbone.View.extend({
 		
@@ -13,7 +13,7 @@ define(['jquery','underscore','backbone',
 		table: DataTable.Api,
 		
 		events: {
-			'change input': 'user-table:input-changed',
+			'click .btn': 'user-table:view-graph',
 		},
 		
 		initialize: function(options) {
@@ -48,6 +48,12 @@ define(['jquery','underscore','backbone',
 			               ];
 			var tableData = {'data': this.model.get('data'), 'columns': columns};
 			this.table = this.$('.usertable').DataTable(tableData);
+		},
+		
+		'user-table:view-graph': function() {
+			var graph = this.$('.form-control').val();
+			alert('button click event fired. ' + graph);
+			Backbone.history.navigate('graph/'+graph, {trigger: true});
 		}
 		
 	});

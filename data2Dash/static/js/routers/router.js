@@ -13,6 +13,11 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 			_.each(options, function(value, key) {
 				this[key] = value;
 			}, this);
+			this.listenTo(Backbone,'all',this.globalEventHandler);
+		},
+		
+		globalEventHandler: function(event, data) {
+			if(this[event]) this[event](data);
 		},
 		
 		graph: function(id) {

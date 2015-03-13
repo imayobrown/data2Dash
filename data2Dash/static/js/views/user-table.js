@@ -52,8 +52,13 @@ define(['jquery','underscore','backbone',
 		
 		'user-table:view-graph': function() {
 			var graph = this.$('.form-control').val();
-			alert('button click event fired. ' + graph);
-			Backbone.history.navigate('graph/'+graph, {trigger: true});
+			//alert('button click event fired. ' + graph);
+			//Backbone.history.navigate('graph/'+graph, {trigger: true});
+			Backbone.trigger('graph', graph);
+		},
+		
+		'user-table:remove': function() {
+			this.remove();
 		}
 		
 	});

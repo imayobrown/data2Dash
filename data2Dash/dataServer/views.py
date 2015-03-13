@@ -85,14 +85,14 @@ class Container_S2PData(object):
             self.S22_mag_trace.append([self.frequency_list[index],self.S22_mag[index]]) 
             
         self.data['Header'] = header
-        self.data['S11 Magnitude'] = self.S11_mag
-        self.data['S11 Phase'] = self.S11_phase
-        self.data['S21 Magnitude'] = self.S21_mag
-        self.data['S21 Phase'] = self.S21_phase
-        self.data['S12 Magnitude'] = self.S12_mag
-        self.data['S12 Phase'] = self.S12_phase
-        self.data['S22 Magnitude'] = self.S22_mag
-        self.data['S22 Phase'] = self.S22_phase
+        #self.data['S11 Magnitude'] = self.S11_mag
+        #self.data['S11 Phase'] = self.S11_phase
+        #self.data['S21 Magnitude'] = self.S21_mag
+        #self.data['S21 Phase'] = self.S21_phase
+        #self.data['S12 Magnitude'] = self.S12_mag
+        #self.data['S12 Phase'] = self.S12_phase
+        #self.data['S22 Magnitude'] = self.S22_mag
+        #self.data['S22 Phase'] = self.S22_phase
         self.Traces = {'S11 Magnitude Trace': self.S11_mag_trace,'S21 Magnitude Trace': self.S21_mag_trace,'S12 Magnitude Trace': self.S12_mag_trace,'S22 Magnitude Trace': self.S22_mag_trace}
         self.data['Traces'] = self.Traces
 
@@ -113,15 +113,18 @@ class Container_S2PData(object):
         data_JSON = json.dumps(self.data, indent=4, sort_keys=True)
         return data_JSON
     
-    
+    def eraseData(self):
+        self.data.clear()
+        return
 
-def data_get(request, ids2p_data=1):
+def data_get(request, ids2p_data):
     """
     Function to respond to HTTP request and get data from the database utilizing the Container_S2PData class.
     """
     
     container = Container_S2PData(ids2p_data)
     data_JSON = container.serializeData_JSON()
+    container.eraseData()
     return HttpResponse(data_JSON, content_type="application/json")
 
 def userList_get(request):

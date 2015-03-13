@@ -31,6 +31,7 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 			}
 			
 			Backbone.trigger('data-graph:retrieve-data', id);
+			//Backbone.trigger('user-table:remove');
 			Backbone.history.navigate(graphString.concat('/',id));
 		},
 		

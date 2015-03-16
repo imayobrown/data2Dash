@@ -1,10 +1,10 @@
 define(['jquery','underscore','backbone',
-        'text!templates/user-table.html','user-save', 'datatables','router'],
-		function($,_,Backbone,Template,UserSave, DataTable, Router){
+        'text!templates/user-table.html','user-save', 'datatables'],
+		function($,_,Backbone,Template,UserSave, DataTable){
 	
 	return Backbone.View.extend({
 		
-		className: 'user-table',
+		className: 'container-fluid row app-view user-table',
 		
 		template: _.template(Template),
 		

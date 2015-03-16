@@ -115,6 +115,15 @@ class Container_S2PData(object):
     
     def eraseData(self):
         self.data.clear()
+        del self.S11_mag_trace[:]
+        del self.S21_mag_trace[:]
+        del self.S12_mag_trace[:]
+        del self.S22_mag_trace[:]
+        del self.frequency_list[:]
+        del self.S11_mag[:]
+        del self.S12_mag[:]
+        del self.S21_mag[:]
+        del self.S22_mag[:]
         return
 
 def data_get(request, ids2p_data):

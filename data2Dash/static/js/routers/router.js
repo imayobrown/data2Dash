@@ -1,12 +1,13 @@
-define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
-		function(_, Backbone, DataGraph, UserTable, DataTable) {
+define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-input-form'],
+		function(_, Backbone, DataGraph, UserTable, DataTable, s2pInputForm) {
 
 	return Backbone.Router.extend({
 
 		routes: {
 			'graph(/:id)': 'graph',
 			'*defaults': 'routeDefault',
-			'table': 'table'
+			'table': 'table',
+			's2p': 's2p'
 		},
 		
 		initialize: function(options) {
@@ -41,16 +42,27 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables'],
 			if (!$('.table-wrapper').length){
 				Backbone.trigger('global:app-view:close');
 				table = new UserTable();
-				$('body > .table').append(table.render());
+				$('body > .application').append(table.render());
 				Backbone.trigger('user-table:retrieve-data');
 			}
 			
 			Backbone.history.navigate('table');
 		},
 		
+		s2p: function() {
+			
+			if (!$('.s2p-input-form').length){
+				Backbone.trigger('global:app-view:close');
+				inputForm = new s2pInputForm();
+				$('body > .application').append(inputForm.render());
+			}
+			
+			Backbone.history.navigate('s2p');
+		},
+		
 		routeDefault: function() {
-			this.table();
-			Backbone.history.navigate('table');
+			this.s2p();
+			Backbone.history.navigate('s2p');
 		}
 	});
 });

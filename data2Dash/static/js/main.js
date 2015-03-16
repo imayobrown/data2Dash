@@ -24,11 +24,12 @@ require.config({
 		'data-model': 'models/data-model',
 		'flot-series': 'models/flot-series',
 		'user-save': 'models/user-save',
-		'flot-series-collection': 'collections/flot-series-collection'
+		'flot-series-collection': 'collections/flot-series-collection',
+		's2p-input-form': 'views/s2p-input-form'
 	}
 });
 
-require(['app', 'backbone'], function(App, Backbone) {
+require(['app', 'backbone', 'bootstrap'], function(App, Backbone, Bootstrap) {
 
 	Backbone.View.prototype.close = function() {
 		if(this.onClose) this.onClose();

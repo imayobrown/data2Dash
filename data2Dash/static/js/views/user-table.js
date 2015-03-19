@@ -59,6 +59,10 @@ define(['jquery','underscore','backbone',
 		
 		'user-table:remove': function() {
 			this.remove();
+		},
+		
+		'global:app-view:close': function(){
+			this.remove();
 		}
 		
 	});

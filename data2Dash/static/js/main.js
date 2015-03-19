@@ -36,30 +36,6 @@ require(['app', 'backbone', 'bootstrap'], function(App, Backbone, Bootstrap) {
 		this.remove();
 		this.unbind();
 	};
-	/*
-	Backbone.sync = function(method, model, options) {
-		var jqXHR;
-		alert('global fetch executed');
-		if(options.view.currentRequest) {
-			options.view.currentRequest.abort();
-		}
-		
-		jqXHR = $.ajax({
-			url: '/data_get/',
-			dataType: 'json',
-			success: function(data) {
-				model.set(data);
-				Backbone.trigger('data-graph:model-updated');
-			},
-			error: function() {
-				
-			}
-		}).done(function() {
-			options.view.currentRequest = null;
-		});
-		
-		options.view.currentRequest = jqXHR;
-	};
-	*/
+	
 	App.start();
 });

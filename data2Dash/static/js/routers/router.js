@@ -4,10 +4,10 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 	return Backbone.Router.extend({
 
 		routes: {
+			's2p': 's2p',
 			'graph(/:id)': 'graph',
-			'*defaults': 'routeDefault',
 			'table': 'table',
-			's2p': 's2p'
+			'*defaults': 'routeDefault',
 		},
 		
 		initialize: function(options) {
@@ -32,7 +32,6 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 			}
 			
 			Backbone.trigger('data-graph:retrieve-data', id);
-			//Backbone.trigger('user-table:remove');
 			Backbone.history.navigate(graphString.concat('/',id));
 		},
 		
@@ -61,8 +60,8 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 		},
 		
 		routeDefault: function() {
-			this.s2p();
-			Backbone.history.navigate('s2p');
+			this.table();
+			Backbone.history.navigate('table');
 		}
 	});
 });

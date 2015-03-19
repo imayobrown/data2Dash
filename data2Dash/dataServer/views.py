@@ -57,7 +57,11 @@ class Container_S2PData(object):
         
         # Splits the dataString into a list of lines. Each row is a data point (except for the first 5 lines which are the file header).
         dataString_splitlines = dataString.splitlines()
-        headerIndex = dataString_splitlines.index("# Hz S  dB   R 1") + 1
+        #headerIndex = dataString_splitlines.index("# Hz S  dB   R 1") + 1
+        
+        for index,line in enumerate(dataString_splitlines):
+            if "#" in line:
+                headerIndex=index+1
         
         # Splits information from dataString into a header component and a data component. This way information can be extracted separately in a uniform manner.
         header = dataString_splitlines[:headerIndex] # Header lines from the .s2p file
@@ -193,4 +197,16 @@ def userEntry_get(request):
     
     entry_JSON = json.dumps(entry,indent=4,sort_keys=True)
     return HttpResponse(entry_JSON,content_type="application/json")
+
+def addS2P(request):
+    inputUser = request.POST['user']
+    inputUnit = request.POST['unit']
+    inputSerialNumber = request.POST['serialNumber']
+    inputComment = request.POST['comment']
+    s2pFile = request.POST['s2pFile']
+    
+    s2pData = S2PData(user = inputUser, unit = inputUnit, serial_number = inputSerialNumber, comment = inputComment, data=s2pFile)
+    s2pData.save()
+    response = "Data saved successfully."
+    return HttpResponse(response,content_type="text/plain")
     

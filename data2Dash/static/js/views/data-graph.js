@@ -98,6 +98,14 @@ define(['jquery', 'underscore', 'backbone',
 		'data-graph:retrieve-data': function(id) {
 			this.model.set({id: id});
 			this.model.fetch({view: this});
+		},
+		
+		'data-graph:remove': function(){
+			this.remove();
+		},
+		
+		'global:app-view:close': function() {
+			this.remove();
 		}
 	});
 });

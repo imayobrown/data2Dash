@@ -90,9 +90,18 @@ define(['jquery', 'underscore', 'backbone',
 		'data-graph:series-updated': function(data) {
 			this.$('.chart-stage').plot(data, {
 				grid: {
-					hoverable: true
+					hoverable: true,
+					margin: 25
 				}
 			});
+			
+			var xaxisLabel = $("<div class='axisLabel xaxisLabel'></div>")
+			  .text("Frequency (Hz)")
+			  .appendTo($('.chart-stage'));
+
+			var yaxisLabel = $("<div class='axisLabel yaxisLabel'></div>")
+			  .text("Loss (dB)")
+			  .appendTo($('.chart-stage'));
 		},
 		
 		'data-graph:retrieve-data': function(id) {

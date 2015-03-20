@@ -67,6 +67,7 @@ define(['jquery','underscore','backbone',
 						alert('Error on ajax POST');
 					}
 				});
+				Backbone.trigger('table');
 			}
 			reader.readAsText(file);
 

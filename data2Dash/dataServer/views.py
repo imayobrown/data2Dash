@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from dataServer.models import S2PData 
 import json
+from datetime import datetime
 
 # Create your views here.
 
@@ -144,7 +145,7 @@ def userList_get(request):
     """
     This view generates a json file that is a list of all the unique users located in the database.
     """
-    databaseReturn = S2PData.objects.values('ids2p_data','user','unit','serial_number','comment')
+    databaseReturn = S2PData.objects.values('ids2p_data','user','unit','serial_number', 'datetime', 'comment')
     entries = []
     for row in databaseReturn:
         entry = []
@@ -152,6 +153,7 @@ def userList_get(request):
         entry.append(row['user'].replace("_", " "))
         entry.append(row['unit'])
         entry.append(row['serial_number'])
+        entry.append(row['datetime'].strftime('%m/%d/%Y %H:%M:%S'))
         entry.append(row['comment'])
         entries.append(entry)
     
@@ -190,7 +192,7 @@ def userEntries_get(request, user):
     return HttpResponse(userEntries_JSON, content_type="application/json")
 
 def userEntry_get(request):
-    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment','user').filter(ids2p_data=8)
+    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment','user').filter(ids2p_data=16)
     
     entry = databaseReturn[0]
     entry['datetime'] = databaseReturn[0]['datetime'].strftime('%m/%d/%Y %H:%M:%S')
@@ -205,7 +207,7 @@ def addS2P(request):
     inputComment = request.POST['comment']
     s2pFile = request.POST['s2pFile']
     
-    s2pData = S2PData(user = inputUser, unit = inputUnit, serial_number = inputSerialNumber, comment = inputComment, data=s2pFile)
+    s2pData = S2PData(user = inputUser, unit = inputUnit, serial_number = inputSerialNumber, datetime = datetime.today(), comment = inputComment, data=s2pFile)
     s2pData.save()
     response = "Data saved successfully."
     return HttpResponse(response,content_type="text/plain")

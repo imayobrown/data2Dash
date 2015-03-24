@@ -44,6 +44,7 @@ define(['jquery','underscore','backbone',
 			               {'title': 'User'},
 			               {'title': 'Unit'},
 			               {'title': 'Serial Number'},
+			               {'title': 'Date'},
 			               {'title': 'Comment'}
 			               ];
 			var tableData = {'data': this.model.get('data'), 'columns': columns};

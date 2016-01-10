@@ -3,3 +3,5 @@
 *.exe
 *.project
 *.pydevproject
+/data2Dash/dataServer/migrations/
+*.db

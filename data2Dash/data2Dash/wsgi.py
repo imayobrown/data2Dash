@@ -8,7 +8,7 @@ https://docs.djangoproject.com/en/1.6/howto/deployment/wsgi/
 """
 
 import os
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "data2Dash.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "data2Dash.settings.base")
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

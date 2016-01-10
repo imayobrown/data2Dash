@@ -1,214 +1,81 @@
-from django.shortcuts import render
 from django.http import HttpResponse
-from dataServer.models import S2PData 
-import json
-from datetime import datetime
+from django.http import Http404
+from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
+from dataServer.models import Data
+from dataServer.serializers import DataSearchSerializer, DataSerializer
+from dataServer.serializers import DataSearchSerializer
+from django.http.request import QueryDict
 
-# Create your views here.
 
-class Container_S2PData(object):
-    """
-    This is a container class for retrieving, holding and manipulating the data found in a .s2p file string retrieved from the database.
+class DataList(APIView):
+    '''
+    List all rows in Data table
+    '''
     
-    Upon instantiation the a data record is retrieved from the database and manipulated to extract all of the relevant data that it contains
-    in order to expose it in a workable format. 
-    """
+    def get(self, request, format = None):
+        dataList = Data.objects.all()
+        serializer = DataSearchSerializer(dataList, many=True)
+        return Response(serializer.data)
     
-    # Initialize frequency list
-    frequency_list = [] 
+    def post(self, request, format=None):
+        serializer = DataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
     
-    # Initialize S11 data arrays
-    S11_mag=[]
-    S11_phase=[]
+class DataSet(APIView):
+    '''
+    Get single data set based on primary key
+    '''
     
-    # Initialize S21 data arrays 
-    S21_mag=[]
-    S21_phase=[]
-    
-    # Initialize S12 data arrays 
-    S12_mag=[]
-    S12_phase=[]
-    
-    # Initialize S22 data arrays 
-    S22_mag=[]
-    S22_phase=[]
-    
-    # Initialize trace lists. Format for graph trace data Traces = {"Trace1": [[x1,y1],[x2,y2],...],"Trace2": [[x1,y1],[x2,y2],...],...}
-    
-    Traces = {}
-    S11_mag_trace = []
-    S11_phase_trace = []
-    S21_mag_trace = []
-    S21_phase_trace = []
-    S12_mag_trace = []
-    S12_phase_trace = []
-    S22_mag_trace = []
-    S22_phase_trace = []
-    
-    data = {}
-    
-    def __init__(self, data_id):
-        dataString = self.retrieveData(data_id)
-        self.extractData(dataString)
+    def getDataSet(self, pk):
+        try:
+            return Data.objects.get(id = pk)
+        except:
+            raise Http404
         
-    def extractData(self, dataString):
-        """
-        Function is used in the constructor for Container_S2PData. Assigns the object instance values for header and data.
-        """
+    def get(self, request, pk, format = None):
+        dataSet = self.getDataSet(pk)
+        serializer = DataSerializer(dataSet)
+        return Response(serializer.data)
+    
+class SearchDataSets(APIView):
+    '''
+    Search the database for datasets given a set of query parameters
+    '''
+    
+    def getDataSets(self, queryDict):
+        try:
+            querySet = Data.objects.values('id', 'user', 'datetime', 'comment')
+        except:
+            raise Http404
         
-        # Splits the dataString into a list of lines. Each row is a data point (except for the first 5 lines which are the file header).
-        dataString_splitlines = dataString.splitlines()
-        #headerIndex = dataString_splitlines.index("# Hz S  dB   R 1") + 1
+        unit = queryDict.get('id')
+        user = queryDict.get('user')
+        datetime = queryDict.get('datetime')
+        comment = queryDict.get('comment')
         
-        for index,line in enumerate(dataString_splitlines):
-            if "#" in line:
-                headerIndex=index+1
-        
-        # Splits information from dataString into a header component and a data component. This way information can be extracted separately in a uniform manner.
-        header = dataString_splitlines[:headerIndex] # Header lines from the .s2p file
-        rawdata = dataString_splitlines[headerIndex:] # Numeric data found in the s2p file
-        
-        # Extract all of the data and place it into its respective container.
-        for point in rawdata:
-            dataset = point.split(" ")
-            self.frequency_list.append(float(dataset[0]))
-            self.S11_mag.append(float(dataset[1]))
-            self.S11_phase.append(float(dataset[2]))
-            self.S21_mag.append(float(dataset[3]))
-            self.S21_phase.append(float(dataset[4]))
-            self.S12_mag.append(float(dataset[5]))
-            self.S12_phase.append(float(dataset[6]))
-            self.S22_mag.append(float(dataset[7]))
-            self.S22_phase.append(float(dataset[8]))
+        if unit is not None:
+            querySet = querySet.filter(unit = unit)
+        if user is not None:
+            querySet = querySet.filter(user = user)
+        if datetime is not None:
+            querySet = querySet.filter(datetime = datetime)
+        if comment is not None:
+            querySet = querySet.filter(comment = comment)
             
-        # Construct traces to be graphed by the front end. 
+        return querySet
+    
+    def get(self, request, format=None):
+        querySet = self.getDataSets(request.Get)
         
-        for index in range(len(self.frequency_list)):
-            self.S11_mag_trace.append([self.frequency_list[index],self.S11_mag[index]])
-            self.S21_mag_trace.append([self.frequency_list[index],self.S21_mag[index]])
-            self.S12_mag_trace.append([self.frequency_list[index],self.S12_mag[index]])
-            self.S22_mag_trace.append([self.frequency_list[index],self.S22_mag[index]]) 
-            
-        self.data['Header'] = header
-        #self.data['S11 Magnitude'] = self.S11_mag
-        #self.data['S11 Phase'] = self.S11_phase
-        #self.data['S21 Magnitude'] = self.S21_mag
-        #self.data['S21 Phase'] = self.S21_phase
-        #self.data['S12 Magnitude'] = self.S12_mag
-        #self.data['S12 Phase'] = self.S12_phase
-        #self.data['S22 Magnitude'] = self.S22_mag
-        #self.data['S22 Phase'] = self.S22_phase
-        self.Traces = {'S11 Magnitude Trace': self.S11_mag_trace,'S21 Magnitude Trace': self.S21_mag_trace,'S12 Magnitude Trace': self.S12_mag_trace,'S22 Magnitude Trace': self.S22_mag_trace}
-        self.data['Traces'] = self.Traces
-
-    def retrieveData(self, data_id):
-        """
-        This function return the data, corresponding to the provided ids2p_Data integer (which is the primary key of the data), in a string format.
-        """
-        
-        # This line retrieves the data from the database. It is returned as a dictionary with the key being the string "data" and the value being the data in string format.
-        dataDictionary = S2PData.objects.values("data").filter(ids2p_data = data_id) 
-        
-        # Here the data string is extracted from the retrieved dictionary.
-        dataString = dataDictionary[0]['data']
-    
-        return dataString
-
-    def serializeData_JSON(self):
-        data_JSON = json.dumps(self.data, indent=4, sort_keys=True)
-        return data_JSON
-    
-    def eraseData(self):
-        self.data.clear()
-        del self.S11_mag_trace[:]
-        del self.S21_mag_trace[:]
-        del self.S12_mag_trace[:]
-        del self.S22_mag_trace[:]
-        del self.frequency_list[:]
-        del self.S11_mag[:]
-        del self.S12_mag[:]
-        del self.S21_mag[:]
-        del self.S22_mag[:]
-        return
-
-def data_get(request, ids2p_data):
-    """
-    Function to respond to HTTP request and get data from the database utilizing the Container_S2PData class.
-    """
-    
-    container = Container_S2PData(ids2p_data)
-    data_JSON = container.serializeData_JSON()
-    container.eraseData()
-    return HttpResponse(data_JSON, content_type="application/json")
-
-def userList_get(request):
-    """
-    This view generates a json file that is a list of all the unique users located in the database.
-    """
-    databaseReturn = S2PData.objects.values('ids2p_data','user','unit','serial_number', 'datetime', 'comment')
-    entries = []
-    for row in databaseReturn:
-        entry = []
-        entry.append(row['ids2p_data'])
-        entry.append(row['user'].replace("_", " "))
-        entry.append(row['unit'])
-        entry.append(row['serial_number'])
-        entry.append(row['datetime'].strftime('%m/%d/%Y %H:%M:%S'))
-        entry.append(row['comment'])
-        entries.append(entry)
-    
-    userDictionary = {'data': entries}
-    
-    users_JSON = json.dumps(userDictionary, indent=4, sort_keys=True)
-    
-    return HttpResponse(users_JSON, content_type="application/json")
-
-def userEntries_get(request, user):
-    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment').filter(user=user)
-    
-    entries = []
-    
-    #for row in databaseReturn:
-    #    entry = {'id':'','Unit':'','Serial Number':'','Datetime':'','Comment':''}
-    #    entry['id'] = row['ids2p_data']
-    #    entry['Unit'] = row['unit']
-    #    entry['Serial Number'] = row['serial_number']
-    #    entry['Datetime'] = row['datetime'].strftime('%m/%d/%Y %H:%M:%S')
-    #    entry['Comment'] = row['comment']
-    #    entries.append(entry)
-    
-    for row in databaseReturn:
-        entry = []
-        entry.append(user.replace("_"," "))
-        entry.append(row['unit'])
-        entry.append(row['serial_number'])
-        entry.append(row['comment'])
-        entries.append(entry)
-    
-    #userEntries = {user.replace("_"," "):entries}
-    userEntries = {'data':entries}
-    
-    userEntries_JSON = json.dumps(userEntries, indent=4, sort_keys=True)
-    return HttpResponse(userEntries_JSON, content_type="application/json")
-
-def userEntry_get(request):
-    databaseReturn = S2PData.objects.values('ids2p_data','unit','serial_number','datetime','comment','user').filter(ids2p_data=16)
-    
-    entry = databaseReturn[0]
-    entry['datetime'] = databaseReturn[0]['datetime'].strftime('%m/%d/%Y %H:%M:%S')
-    
-    entry_JSON = json.dumps(entry,indent=4,sort_keys=True)
-    return HttpResponse(entry_JSON,content_type="application/json")
-
-def addS2P(request):
-    inputUser = request.POST['user']
-    inputUnit = request.POST['unit']
-    inputSerialNumber = request.POST['serialNumber']
-    inputComment = request.POST['comment']
-    s2pFile = request.POST['s2pFile']
-    
-    s2pData = S2PData(user = inputUser, unit = inputUnit, serial_number = inputSerialNumber, datetime = datetime.today(), comment = inputComment, data=s2pFile)
-    s2pData.save()
-    response = "Data saved successfully."
-    return HttpResponse(response,content_type="text/plain")
-    
+        try:
+            serializer = DataSearchSerializer(querySet, many = True)
+            return Response(serializer.data)
+        except:
+            serializer = DataSearchSerializer(querySet)
+            return Response(serializer.data)

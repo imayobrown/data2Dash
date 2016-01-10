@@ -2,11 +2,9 @@ from django.db import models
 
 # Create your models here.
 
-class S2PData(models.Model):
-    ids2p_data = models.AutoField(db_column='ids2p_Data', unique=True, primary_key=True) # Field name made lowercase.
+class Data(models.Model):
+    dataid = models.AutoField(unique=True, primary_key=True)
     user = models.CharField(max_length=45, blank=True)
-    unit = models.CharField(max_length=45, blank=True)
-    serial_number = models.CharField(max_length=45, blank=True)
     datetime = models.DateTimeField(blank=True, null=True)
     comment = models.CharField(max_length=255, blank=True)
     data = models.TextField(blank=True)
@@ -15,4 +13,4 @@ class S2PData(models.Model):
         db_table = 's2p_data'
         
     def __unicode__(self):
-        return " id: "+str(self.ids2p_data)+" User: "+self.user+" Unit: " + self.unit + " Serial Number: " + self.serial_number + " Comment: " + self.comment
+        return " id: "+str(self.dataid)+" User: "+self.user+" Unit: " + self.unit + " Serial Number: " + self.serial_number + " Comment: " + self.comment

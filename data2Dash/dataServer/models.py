@@ -8,9 +8,6 @@ class Data(models.Model):
     datetime = models.DateTimeField(blank=True, null=True)
     comment = models.CharField(max_length=255, blank=True)
     data = models.TextField(blank=True)
-    class Meta:
-        managed = True
-        db_table = 's2p_data'
         
     def __unicode__(self):
         return " id: "+str(self.dataid)+" User: "+self.user+" Unit: " + self.unit + " Serial Number: " + self.serial_number + " Comment: " + self.comment

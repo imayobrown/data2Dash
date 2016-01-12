@@ -1,5 +1,5 @@
 """
-Django settings for data2Dash project.
+Django settings for data2DashAPI project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -50,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'data2Dash.urls'
+ROOT_URLCONF = 'data2DashAPI.urls'
 
-WSGI_APPLICATION = 'data2Dash.wsgi.application'
+WSGI_APPLICATION = 'data2DashAPI.wsgi.application'
 
 
 # Database

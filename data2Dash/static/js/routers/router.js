@@ -60,8 +60,6 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 		},
 		
 		routeDefault: function() {
-			this.table();
-			Backbone.history.navigate('table');
 		}
 	});
 });

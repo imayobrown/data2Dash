@@ -1,5 +1,5 @@
 """
-Django settings for data2Dash project.
+Django settings for data2DashAPI project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.6/topics/settings/
@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.conf.global_settings import APPEND_SLASH
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -37,8 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',\
-    'rest_framework',
+    'django.contrib.staticfiles',
     'dataServer',
 )
 
@@ -51,9 +50,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'data2Dash.urls'
+ROOT_URLCONF = 'data2DashAPI.urls'
 
-WSGI_APPLICATION = 'data2Dash.wsgi.application'
+WSGI_APPLICATION = 'data2DashAPI.wsgi.application'
 
 
 # Database
@@ -91,13 +90,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-#This setting is only used in development mode. Once pushed to production it will no longer matter
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 APPEND_SLASH = True
-
-if __name__ == "__main__":
-    print(STATICFILES_DIRS)
-    print(BASE_DIR)
 
 

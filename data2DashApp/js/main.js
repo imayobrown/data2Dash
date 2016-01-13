@@ -2,8 +2,8 @@ require.config({
 	
 	shim: {
 		bootstrap: ['jquery'],
-		flot: ['jquery'],
-		'flot-resize': ['jquery', 'flot'],
+		//flot: ['jquery'],
+		//'flot-resize': ['jquery', 'flot'],
 		//datatables: ['jquery']
 	},
 	
@@ -12,20 +12,22 @@ require.config({
 		bootstrap: 'plugins/bootstrap.min',
 		backbone: 'plugins/backbone',
 		underscore: 'plugins/underscore-min',
-		flot: 'plugins/jquery.flot',
-		'flot-resize': 'plugins/jquery.flot.resize',
-		'datatables': 'plugins/jquery.dataTables',
-		router: 'routers/router',
 		text: 'plugins/text',
-		'data-graph': 'views/data-graph',
-		'user-table': 'views/user-table',
-		'flot-series-view': 'views/flot-series-view',
-		'flot-series-collection-view': 'views/flot-series-collection-view',
-		'data-model': 'models/data-model',
-		'flot-series': 'models/flot-series',
-		'user-save': 'models/user-save',
-		'flot-series-collection': 'collections/flot-series-collection',
-		's2p-input-form': 'views/s2p-input-form'
+		router: 'routers/router',
+		home: 'views/home',
+		//flot: 'plugins/jquery.flot',
+		//'flot-resize': 'plugins/jquery.flot.resize',
+		//'datatables': 'plugins/jquery.dataTables',
+		//router: 'routers/router',
+		//'data-graph': 'views/data-graph',
+		//'user-table': 'views/user-table',
+		//'flot-series-view': 'views/flot-series-view',
+		//'flot-series-collection-view': 'views/flot-series-collection-view',
+		//'data-model': 'models/data-model',
+		//'flot-series': 'models/flot-series',
+		//'user-save': 'models/user-save',
+		//'flot-series-collection': 'collections/flot-series-collection',
+		//'s2p-input-form': 'views/s2p-input-form'
 	}
 });
 

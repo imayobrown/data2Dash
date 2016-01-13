@@ -1,7 +1,7 @@
 define(['underscore', 'backbone', 'flot-series'],
 		function(_, Backbone, FlotSeries) {
 
-	return Backbone.Collection.extend({
+	var flotSeriesCollection = Backbone.Collection.extend({
 		
 		model: FlotSeries,
 
@@ -11,4 +11,6 @@ define(['underscore', 'backbone', 'flot-series'],
 			}, this);
 		}
 	});
+	
+	return flotSeriesCollection;
 });

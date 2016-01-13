@@ -5,11 +5,11 @@ class DataSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Data
-        fields = ('dataid', 'user', 'datetime', 'comment', 'data')
+        fields = ('dataid', 'user', 'dataType', 'datetime', 'comment', 'data')
         
         
 class DataSearchSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Data
-        fields = ('dataid', 'user', 'unit', 'serial_number', 'datetime', 'comment')
+        fields = ('dataid', 'user', 'dataType', 'datetime', 'comment')

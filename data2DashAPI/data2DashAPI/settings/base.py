@@ -91,12 +91,16 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Directory containing single page application code and dependencies
+WEBAPP_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'data2DashApp')
+
 #This setting is only used in development mode. Once pushed to production it will no longer matter
-STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'), WEBAPP_DIR,)
 
 APPEND_SLASH = True
 
 if __name__ == "__main__":
+    print(WEBAPP_DIR)
     print(STATICFILES_DIRS)
     print(BASE_DIR)
 

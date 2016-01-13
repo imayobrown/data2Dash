@@ -1,12 +1,14 @@
-define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-input-form'],
-		function(_, Backbone, DataGraph, UserTable, DataTable, s2pInputForm) {
+define(['underscore', 'backbone', /*'data-graph', 'user-table','datatables','s2p-input-form',*/ 'home'],
+		function(_, Backbone, /*DataGraph, UserTable, DataTable, s2pInputForm,*/ Home) {
 
 	return Backbone.Router.extend({
 
 		routes: {
+			/*
 			's2p': 's2p',
 			'graph(/:id)': 'graph',
 			'table': 'table',
+			*/
 			'*defaults': 'routeDefault',
 		},
 		
@@ -20,7 +22,7 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 		globalEventHandler: function(event, data) {
 			if(this[event]) this[event](data);
 		},
-		
+		/*
 		graph: function(id) {
 			var graph;
 			var graphString = 'graph';
@@ -58,8 +60,11 @@ define(['underscore', 'backbone', 'data-graph', 'user-table','datatables','s2p-i
 			
 			Backbone.history.navigate('s2p');
 		},
-		
+		*/
 		routeDefault: function() {
+			var home = new Home();
+			$('.application').append(home.render().$el);
+			
 		}
 	});
 });

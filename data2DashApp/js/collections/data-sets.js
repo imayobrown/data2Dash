@@ -1,8 +1,10 @@
-define(['underscore', 'Backbone'], function(_, Backbone) {
+define(['underscore', 'backbone', 'data-set'], function(_, Backbone, DataSet) {
 	
 	var dataSetCollection = Backbone.Collection.extend({
 		
-		url: 'data/',
+		model: DataSet,
+		
+		url: 'http://127.0.0.1:8000/data/',
 		
 		initialize: function(options) {
 			_.each(options, function(value, key, list){
@@ -13,5 +15,5 @@ define(['underscore', 'Backbone'], function(_, Backbone) {
 		
 	});
 	
-	return dataSetCollection;
+	return new dataSetCollection;
 });

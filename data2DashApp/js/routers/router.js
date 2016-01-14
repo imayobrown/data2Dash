@@ -1,14 +1,11 @@
-define(['underscore', 'backbone', /*'data-graph', 'user-table','datatables','s2p-input-form',*/ 'home'],
-		function(_, Backbone, /*DataGraph, UserTable, DataTable, s2pInputForm,*/ Home) {
+define(['underscore', 'backbone', 'home', 'data-view', 'data-input'],
+		function(_, Backbone, Home, DataView, DataInput) {
 
 	return Backbone.Router.extend({
 
 		routes: {
-			/*
-			's2p': 's2p',
-			'graph(/:id)': 'graph',
-			'table': 'table',
-			*/
+			'view-data': 'view-data',
+			'input-data': 'input-data',
 			'*defaults': 'routeDefault',
 		},
 		
@@ -22,49 +19,31 @@ define(['underscore', 'backbone', /*'data-graph', 'user-table','datatables','s2p
 		globalEventHandler: function(event, data) {
 			if(this[event]) this[event](data);
 		},
-		/*
-		graph: function(id) {
-			var graph;
-			var graphString = 'graph';
-			
-			if(!$('body > .application > .data-graph').length) {
-				Backbone.trigger('global:app-view:close');
-				graph = new DataGraph();
-				$('body > .application').append(graph.render());
-			}
-			
-			Backbone.trigger('data-graph:retrieve-data', id);
-			Backbone.history.navigate(graphString.concat('/',id));
+		
+		//Loads in the view to inspect data
+		'view-data': function() {
+			this.loadView(new DataView());
+			this.navigate('view-data');
 		},
 		
-		table: function() {
-			//user = typeof user !== 'undefined' ? user : ""; //This line sets a default value for user if one is not supplied.
-			var table;
-			if (!$('.table-wrapper').length){
-				Backbone.trigger('global:app-view:close');
-				table = new UserTable();
-				$('body > .application').append(table.render());
-				Backbone.trigger('user-table:retrieve-data');
-			}
-			
-			Backbone.history.navigate('table');
+		'input-data': function() {
+			this.loadView(new DataInput);
+			this.navigate('input-data');
 		},
 		
-		s2p: function() {
-			
-			if (!$('.s2p-input-form').length){
-				Backbone.trigger('global:app-view:close');
-				inputForm = new s2pInputForm();
-				$('body > .application').append(inputForm.render());
-			}
-			
-			Backbone.history.navigate('s2p');
-		},
-		*/
+		//Default view loaded if url is not recognized
 		routeDefault: function() {
-			var home = new Home();
-			$('.application').append(home.render().$el);
-			
+			this.loadView(new Home());
+			this.navigate('');
+		},
+		
+		//Removes current view and loads passed view into DOM
+		loadView: function(view) {
+			if (this.view) {
+				this.view.remove();
+			}
+			this.view = view;
+			$('.application').append(this.view.render().el);
 		}
 	});
 });

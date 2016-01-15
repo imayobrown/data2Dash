@@ -4,7 +4,8 @@ require.config({
 		bootstrap: ['jquery'],
 		//flot: ['jquery'],
 		//'flot-resize': ['jquery', 'flot'],
-		//datatables: ['jquery']
+		'datatables.net': ['jquery'],
+		'datatables.select': ['jquery', 'datatables.net'],
 	},
 	
 	paths: {
@@ -21,7 +22,8 @@ require.config({
 		'data-input': 'views/data-input',
 		//flot: 'plugins/jquery.flot',
 		//'flot-resize': 'plugins/jquery.flot.resize',
-		//'datatables': 'plugins/jquery.dataTables',
+		'datatables.net': 'plugins/datatables',
+		'datatables.select': 'plugins/datatables/dataTables.select'
 		//router: 'routers/router',
 		//'data-graph': 'views/data-graph',
 		//'user-table': 'views/user-table',

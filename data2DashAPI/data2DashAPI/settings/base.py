@@ -97,7 +97,7 @@ WEBAPP_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.pat
 #This setting is only used in development mode. Once pushed to production it will no longer matter
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'), WEBAPP_DIR,)
 
-APPEND_SLASH = False
+#APPEND_SLASH = True
 
 if __name__ == "__main__":
     print(WEBAPP_DIR)

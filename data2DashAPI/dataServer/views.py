@@ -34,7 +34,7 @@ class DataSet(APIView):
     
     def getDataSet(self, pk):
         try:
-            return Data.objects.get(id = pk)
+            return Data.objects.get(dataid = pk)
         except:
             raise Http404
         

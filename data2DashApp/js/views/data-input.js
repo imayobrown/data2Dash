@@ -48,6 +48,7 @@ define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-inp
 				//Wait till data has been set on model to save
 				var jqXHR = localModel.save();
 				console.log(jqXHR);
+				console.log(localModel.attributes.toString());
 			};
 			
 			//Start reading data from file as text

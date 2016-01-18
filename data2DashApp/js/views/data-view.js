@@ -1,4 +1,4 @@
-define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templates/data-view.html', 'datatables.net', 'datatables.select'], function(_, Backbone, $, DataSets, DataSet, Template, DataTables) {
+define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templates/data-view.html', 'datatables.net', 'datatables.select', 'data-table'], function(_, Backbone, $, DataSets, DataSet, Template, DataTables, Select, DataTableView) {
 	
 	var viewData = Backbone.View.extend({
 		
@@ -10,38 +10,36 @@ define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templ
 				this[key] = value;
 			}, this);
 			
-			this.listenTo(DataSets, 'reset', this.render); //Bind reset event to view render
+			this.$el.html(this.template());
 			
-			this.$el.html(this.template()); //Set html of element
+			var startView = new DataTableView(DataSets);
 			
-			DataSets.fetch({ reset: true, success: this.renderTable}); //Fetch data sets all at once and fire reset even when finished
+			DataSets.fetch({ reset: true }); //Fetch data sets all at once and fire reset even when finished
+			
+			this.loadSubView(startView);
+			
 			
 		},
 		
 		template: _.template(Template),
 		
 		render: function() {
-			this.$el.html(this.template());
-			
+			//Render does not need to be called with any context since it is just a holder for the subviews but it still needs to return this object
 			return this;
 		},
 		
-		renderTable: function() {
-			var columns = [
-			               { data: 'user', title: 'User'},
-			               { data: 'dataType', title: 'Data Type'},
-			               { data: 'datetime', title: 'Date'},
-			               { data: 'comment', title: 'Comment'}
-			               ];//Setup columns for data tables
-			
-			this.table = this.$('#data-set-table').DataTable({'columns': columns, 'data': DataSets.models, select: {style: 'single', blurable: true}});
-			
-			//Bind callback to select event that changes view to display data in chart
-			table.on('select', function(e, dt, type, indexes) {
-				var data = table.row(indexes).data();
-				console.log(data.dataid);
-			});
+		loadSubView: function(subView) {
+			if (this.subView) {
+				this.subView.remove();
+			}
+			this.subView = subView;
+			this.$el.append(this.subView.render().el);
 		},
+		
+		close: function() {
+			this.subView.remove();
+			this.remove();
+		}
 		
 	});
 	

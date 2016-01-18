@@ -20,20 +20,9 @@ require.config({
 		'data-sets': 'collections/data-sets',
 		'data-view': 'views/data-view',
 		'data-input': 'views/data-input',
-		//flot: 'plugins/jquery.flot',
-		//'flot-resize': 'plugins/jquery.flot.resize',
 		'datatables.net': 'plugins/datatables',
-		'datatables.select': 'plugins/datatables/dataTables.select'
-		//router: 'routers/router',
-		//'data-graph': 'views/data-graph',
-		//'user-table': 'views/user-table',
-		//'flot-series-view': 'views/flot-series-view',
-		//'flot-series-collection-view': 'views/flot-series-collection-view',
-		//'data-model': 'models/data-model',
-		//'flot-series': 'models/flot-series',
-		//'user-save': 'models/user-save',
-		//'flot-series-collection': 'collections/flot-series-collection',
-		//'s2p-input-form': 'views/s2p-input-form'
+		'datatables.select': 'plugins/datatables/dataTables.select',
+		'data-table': 'views/data-table'
 	}
 });
 

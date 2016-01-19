@@ -39,13 +39,14 @@ define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'da
 			this.table = this.$('#data-set-table').DataTable({'columns': columns, 'data': this.dataSets.models, select: {style: 'single', blurable: true}});
 			
 			//Bind callback to select event that changes view to display data in chart
-			this.table.on('select', changeToGraph(this.table)); //A closure is used to define this.table in the callback functions namespace
+			this.table.on('select', changeToGraph(this)); //A closure is used to define this.table in the callback functions namespace
 			
-			//Closure function that allows passing of table to callback. this.table will not work inside callback because it references its own object
-			function changeToGraph(table) {
+			//Closure function that allows passing of the view instance to callback. this keyword will not refer to view inside callback because it references its own function object
+			function changeToGraph(view) {
 				return function(e, dt, type, indexes) {
-					var data = table.rows( indexes ).data();
-					console.log(data);
+					var dataid = view.table.rows( indexes ).data()[0].attributes.dataid;
+					//console.log(dataid);
+					view.trigger('data-selected', dataid);
 				};
 			}
 			

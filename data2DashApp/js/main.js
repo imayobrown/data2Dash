@@ -22,7 +22,8 @@ require.config({
 		'data-input': 'views/data-input',
 		'datatables.net': 'plugins/datatables',
 		'datatables.select': 'plugins/datatables/dataTables.select',
-		'data-table': 'views/data-table'
+		'data-table': 'views/data-table',
+		'data-graph': 'views/data-graph'
 	}
 });
 

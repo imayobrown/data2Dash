@@ -16,6 +16,7 @@ require.config({
 		text: 'plugins/text',
 		router: 'routers/router',
 		home: 'views/home',
+		d3: 'plugins/d3.min',
 		'data-set': 'models/data-set',
 		'data-sets': 'collections/data-sets',
 		'data-view': 'views/data-view',
@@ -23,7 +24,8 @@ require.config({
 		'datatables.net': 'plugins/datatables',
 		'datatables.select': 'plugins/datatables/dataTables.select',
 		'data-table': 'views/data-table',
-		'data-graph': 'views/data-graph'
+		'data-graph': 'views/data-graph',
+		'line-graph': 'lib/line-graph'
 	}
 });
 

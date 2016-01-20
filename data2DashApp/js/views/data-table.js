@@ -1,6 +1,11 @@
-define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'datatables.net', 'datatables.select'], function(_, $, Backbone, Template, DataTables, Select) {
+define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'datatables.net', 'datatables.select'], 
+		function(_, $, Backbone, Template, DataTables, Select) {
 	
 	var dataTable = Backbone.View.extend({
+		
+		id: 'table-wrapper',
+		
+		className: 'container',
 		
 		//Need to pass collection to data table from parent view
 		initialize: function(dataSets, options) {
@@ -34,7 +39,6 @@ define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'da
 				this.table.destroy(); //Destroy table so that it can be remade on rerenders
 			}
 			
-			
 			//Initialize table
 			this.table = this.$('#data-set-table').DataTable({'columns': columns, 'data': this.dataSets.models, select: {style: 'single', blurable: true}});
 			
@@ -44,13 +48,14 @@ define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'da
 			//Closure function that allows passing of the view instance to callback. this keyword will not refer to view inside callback because it references its own function object
 			function changeToGraph(view) {
 				return function(e, dt, type, indexes) {
-					var dataid = view.table.rows( indexes ).data()[0].attributes.dataid;
+					var dataid = view.table.rows( indexes ).data()[0].attributes.dataid; //Peel the dataid from the selected data row
+					view.table.rows( indexes ).deselect(); //Deselect the row that was selected so that it is not highlighted when user returns to table
 					//console.log(dataid);
-					view.trigger('data-selected', dataid);
+					view.trigger('data-selected', dataid); //Trigger the data-selected event so that the data-view hears it
 				};
 			}
 			
-			return this;
+			return this; //Return this object so actions can be chained on render call
 		},
 		
 		

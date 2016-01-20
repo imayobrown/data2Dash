@@ -1,5 +1,5 @@
-define(['underscore', 'backbone', 'home', 'data-view', 'data-input', 'data-graph', 'data-table'],
-		function(_, Backbone, Home, DataView, DataInput, DataGraphView, DataTableView) {
+define(['underscore', 'backbone', 'home', 'data-view', 'data-input', 'data-graph', 'data-table', 'line-graph'],
+		function(_, Backbone, Home, DataView, DataInput, DataGraphView, DataTableView, LineGraph) {
 
 	return Backbone.Router.extend({
 
@@ -23,29 +23,22 @@ define(['underscore', 'backbone', 'home', 'data-view', 'data-input', 'data-graph
 		
 		//Loads in the view to inspect data
 		'view-data': function() {
-			if (this.view && this.view.returnType == 'DataView'){
-				this.view.loadSubView(new DataTableView(this.view.collection));
+			if (!this.view.returnType) {
+				this.loadView(new DataView);
 			}
-			else {
-				this.loadView(new DataView());
-				console.log('loadView called from view-data');
-			}
-			//this.navigate('view-data');
+			this.view.loadTable();
 		},
 		
 		'view-data-graph': function(id) {
-			if (this.view && this.view.returnType) {
-				this.view.loadSubView(new DataGraphView(id));
-			}
-			else {
+			if (!this.view.returnType) {
 				this.loadView(new DataView());
-				this.view.loadSubView(new DataGraphView(id));
 			}
+			this.view.dataGraphView.setModelID(id);
+			this.view.loadGraph();
 		},
 		
 		'input-data': function() {
 			this.loadView(new DataInput);
-			//this.navigate('input-data');
 		},
 		
 		//Default view loaded if url is not recognized
@@ -57,11 +50,14 @@ define(['underscore', 'backbone', 'home', 'data-view', 'data-input', 'data-graph
 		
 		//Removes current view and loads passed view into DOM
 		loadView: function(view) {
-			if (this.view) {
+			if (this.view && this.view.close) {
+				this.view.close();
+			}
+			else if(this.view){
 				this.view.remove();
 			}
 			this.view = view;
-			$('.application').append(this.view.render().el);
+			$('#application-container').append(this.view.render().el);
 		}
 	});
 });

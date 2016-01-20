@@ -1,8 +1,7 @@
-define(['jquery', 'backbone', 'underscore', 'text!templates/home.html'], function($, Backbone, _, Template) {
+define(['jquery', 'backbone', 'underscore', 'text!templates/home.html'],
+		function($, Backbone, _, Template) {
 	
 	var homeView = Backbone.View.extend({
-		
-		className: "home",
 		
 		initialize: function(){
 			

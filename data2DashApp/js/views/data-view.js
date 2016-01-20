@@ -1,6 +1,11 @@
-define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templates/data-view.html', 'datatables.net', 'datatables.select', 'data-table', 'data-graph'], function(_, Backbone, $, DataSets, DataSet, Template, DataTables, Select, DataTableView, DataGraphView) {
+define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templates/data-view.html', 'datatables.net', 'datatables.select', 'data-table', 'data-graph'], 
+		function(_, Backbone, $, DataSets, DataSet, Template, DataTables, Select, DataTableView, DataGraphView) {
 	
 	var viewData = Backbone.View.extend({
+		
+		id: 'data-view-container',
+		
+		className: 'container',
 		
 		//Fetch DataSets and bind view functions to collection events. Initialize class variables to DOM elements with jquery objects.
 		initialize: function(options) {
@@ -10,25 +15,31 @@ define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templ
 				this[key] = value;
 			}, this);
 			
-			this.$el.html(this.template());
-			
 			this.returnType = 'DataView';
 			
 			this.collection = DataSets;
 			
-			this.tableView = new DataTableView(DataSets);
-			
 			this.collection.fetch({ reset: true }); //Fetch data sets all at once and fire reset even when finished
 			
-			this.loadSubView(this.tableView);
+			this.dataTableView = new DataTableView(DataSets); //Create data table view
+			
+			this.dataGraphView = new DataGraphView(); //Create graph view
+			
+			//Render and add the subviews html to the container view
+			this.$el.append(this.dataTableView.render().el);
+			this.$el.append(this.dataGraphView.render().el);
+			
+			//Hide the table and graph in the view to start
+			$(this.dataTableView.el).hide();
+			$(this.dataGraphView.el).hide();
 			
 			//When data is selected in subview perform view change to data graph 
-			this.listenTo(this.tableView, 'data-selected', loadSubViewCallback(this));
+			this.listenTo(this.dataTableView, 'data-selected', loadGraphCallback(this));
 			
-			function loadSubViewCallback(view) {
+			//Define callback closure to pass parent view instance
+			function loadGraphCallback(view) {
 				return function(dataid) {
-					console.log(dataid);
-					view.loadSubView(new DataGraphView(dataid));
+					view.loadGraph();
 					Backbone.history.navigate('view-data/datagraph/'+dataid);
 				};
 			}
@@ -36,23 +47,28 @@ define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templ
 			
 		},
 		
-		template: _.template(Template),
-		
 		render: function() {
 			//Render does not need to be called with any context since it is just a holder for the subviews but it still needs to return *this* object
 			return this;
 		},
 		
-		loadSubView: function(subView) {
-			if (this.subView) {
-				this.subView.remove();
+		loadTable: function() {
+			if ($(this.dataGraphView.el).is(':visible')) {
+				$(this.dataGraphView.el).hide();
 			}
-			this.subView = subView;
-			this.$el.append(this.subView.render().el);
+			$(this.dataTableView.el).show();
+		},
+		
+		loadGraph: function() {
+			if ($(this.dataTableView.el).is(':visible')) {
+				$(this.dataTableView.el).hide();
+			}
+			$(this.dataGraphView.el).show();
 		},
 		
 		close: function() {
-			this.subView.remove();
+			this.dataTableView.remove();
+			this.dataGraphView.remove();
 			this.remove();
 		}
 		

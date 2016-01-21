@@ -23,14 +23,14 @@ define(['underscore', 'backbone', 'home', 'data-view', 'data-input', 'data-graph
 		
 		//Loads in the view to inspect data
 		'view-data': function() {
-			if (!this.view.returnType) {
+			if (!this.view || !this.view.returnType) {
 				this.loadView(new DataView);
 			}
 			this.view.loadTable();
 		},
 		
 		'view-data-graph': function(id) {
-			if (!this.view.returnType) {
+			if (!this.view || !this.view.returnType) {
 				this.loadView(new DataView());
 			}
 			this.view.dataGraphView.setModelID(id);

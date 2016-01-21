@@ -39,6 +39,7 @@ define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templ
 			//Define callback closure to pass parent view instance
 			function loadGraphCallback(view) {
 				return function(dataid) {
+					view.dataGraphView.setModelID(dataid);
 					view.loadGraph();
 					Backbone.history.navigate('view-data/datagraph/'+dataid);
 				};

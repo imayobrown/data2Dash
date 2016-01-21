@@ -1,5 +1,5 @@
-define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-graph.html'], 
-		function(_, $, Backbone, DataSet, Template) {
+define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-graph.html', 'line-graph', 'd3'], 
+		function(_, $, Backbone, DataSet, Template, LineGraph, d3) {
 	
 	var dataGraph = Backbone.View.extend({
 		
@@ -11,6 +11,7 @@ define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-gra
 			
 			this.model = new DataSet();
 			this.listenTo(this.model, 'change:id', this.idChanged);
+			this.listenTo(this.model, 'change:data', this.drawGraph);
 			
 			if (dataid){
 				this.model.set({'id': dataid});
@@ -33,7 +34,19 @@ define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-gra
 		},
 		
 		idChanged: function() {
-			this.model.fetch();
+			this.model.fetch(); //fetch() triggers data change event
+		},
+		
+		drawGraph: function() {
+			
+			//If chart has already been rendered remove it and re-render it
+			if ($('#svg-chart').length) {
+				$('#svg-chart').remove();
+			}
+			//console.log(this.model.get('data'));
+			var data = this.model.get('data');
+			var parsedData = d3.csv.parseRows(data);
+			LineGraph.lineGraph('div.chart-stage', parsedData); //Render chart and add to DOM
 		},
 		
 		setModelID: function(dataid) {

@@ -30,3 +30,28 @@ h3 a {
 .homepage-block {
 	
 }
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.axis--x path {
+}
+
+.axis-title {
+  font-weight: bold;
+  text-anchor: end;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}

@@ -5,18 +5,21 @@ define(['d3'],
 		
 		lineGraph: function lineGraph(domElement, originalData) {
 			
-			//var dummyData = [ [1, 100], [2, 200], [3, 300], [4, 400], [5, 500] ];
-			
 			var dummyData = originalData;
 			
-			console.log(dummyData);
+			var yArray = [];
+			var xArray = [];
+			
+			dummyData.forEach(function(item) { 
+				yArray.push(parseInt(item[1]));
+				xArray.push(parseInt(item[0]));
+			});
+			
+			console.log(xArray);
 			
 			var margin = {top: 20, right: 20, bottom: 30, left: 50},
 		    	width = 960 - margin.left - margin.right,
 		    	height = 500 - margin.top - margin.bottom;
-			
-			console.log('width: ' + width);
-			console.log('height: ' + height);
 
 			/* d3 v4.0
 			var x = d3.scaleTime()
@@ -29,21 +32,14 @@ define(['d3'],
 			//d3 v3.5
 			var x = d3.scale.linear()
 				.range([0, width])
-				.domain(d3.extent(dummyData, function(d) { return d[0]; }));
+				.domain(d3.extent(xArray));
+				//.domain(d3.extent(dummyData, function(d) { return d[0]; }));
 			
 			var y = d3.scale.linear()
 				.range([height, 0])
-				.domain(d3.extent(dummyData, function(d) { 
-					console.log(d[1]);
-					return d[1]; }));
+				.domain(d3.extent(yArray));
+				//.domain(d3.extent(dummyData, function(d) { return d[1]; }));
 			
-			console.log(d3.extent(dummyData, function(d) { return d[0]; }));
-			
-			console.log(d3.extent(dummyData, function(d) { return d[1]; }));
-			
-			console.log(y.domain());
-			console.log(y.range());
-
 			/* d3 v4.0
 			var xAxis = d3.axisBottom()
 		    	.scale(x);
@@ -63,14 +59,9 @@ define(['d3'],
 
 			//Changed d3.line() to d3.svg.line() --> using d3 v3.5 so need to use d3.svg.line() instead of d3.line()
 			var line = d3.svg.line()
-		    	.x(function(d) {
-		    		//console.log('x value: ' + d[0]);
-		    		//console.log('scaled x value: ' + x(d[0]));
-		    		return x(d[0]); })
-		    	.y(function(d) { 
-		    		//console.log('y value: ' + d[1]);
-		    		//console.log('scaled y value: ' + y(d[1]));
-		    		return y(d[1]); });
+		    	.x(function(d) { return x(d[0]); })
+		    	.y(function(d) { return y(d[1]); })
+		    	.interpolate('cardinal');
 
 			var svg = d3.select(domElement).append("svg")
 				.attr("id", "svg-chart")

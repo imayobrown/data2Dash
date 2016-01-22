@@ -3,19 +3,10 @@ define(['d3'],
 	
 	return {
 		
-		lineGraph: function lineGraph(domElement, originalData) {
+		lineGraph: function lineGraph(domElement, data) {
 			
-			var dummyData = originalData;
-			
-			var yArray = [];
-			var xArray = [];
-			
-			dummyData.forEach(function(item) { 
-				yArray.push(parseInt(item[1]));
-				xArray.push(parseInt(item[0]));
-			});
-			
-			console.log(xArray);
+			var numOfLines = data[0].length - 1;
+
 			
 			var margin = {top: 20, right: 20, bottom: 30, left: 50},
 		    	width = 960 - margin.left - margin.right,
@@ -32,12 +23,12 @@ define(['d3'],
 			//d3 v3.5
 			var x = d3.scale.linear()
 				.range([0, width])
-				.domain(d3.extent(xArray));
+				.domain([0,10]); //TODO: come up with a better way to find max x domain value on all curves
 				//.domain(d3.extent(dummyData, function(d) { return d[0]; }));
 			
 			var y = d3.scale.linear()
 				.range([height, 0])
-				.domain(d3.extent(yArray));
+				.domain([0,10]); //TODO: come up with a better way to find max y domain value on all curves
 				//.domain(d3.extent(dummyData, function(d) { return d[1]; }));
 			
 			/* d3 v4.0
@@ -57,12 +48,6 @@ define(['d3'],
 				.scale(y)
 				.orient('left');
 
-			//Changed d3.line() to d3.svg.line() --> using d3 v3.5 so need to use d3.svg.line() instead of d3.line()
-			var line = d3.svg.line()
-		    	.x(function(d) { return x(d[0]); })
-		    	.y(function(d) { return y(d[1]); })
-		    	.interpolate('cardinal');
-
 			var svg = d3.select(domElement).append("svg")
 				.attr("id", "svg-chart")
 		    	.attr("width", width + margin.left + margin.right)
@@ -80,11 +65,31 @@ define(['d3'],
 			svg.append("g")
 			    .attr("class", "axis axis--y")
 			    .call(yAxis);
+			
+			for (var i = 0; i < numOfLines; i++) {
+				var line = d3.svg.line()
+					.x(function(d) {return d[0];})
+					.y(function(d) {return d[i+1];});
+				
+				svg.append('path')
+					.datum(data)
+					.attr('class', 'line')
+					.attr('d', line);
+			}
+			
+			/*
+			//Changed d3.line() to d3.svg.line() --> using d3 v3.5 so need to use d3.svg.line() instead of d3.line()
+			var line = d3.svg.line()
+		    	.x(function(d) { return x(d[0]); })
+		    	.y(function(d) { return y(d[1]); })
+		    	.interpolate('cardinal');
 
 			svg.append("path")
 			    .datum(dummyData)
 			    .attr("class", "line")
 			    .attr("d", line);
+			*/
+			
 			
 		}
 	

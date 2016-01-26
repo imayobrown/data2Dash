@@ -5,7 +5,7 @@ define(['underscore', 'backbone', 'jquery', 'data-sets', 'data-set', 'text!templ
 		
 		id: 'data-view-container',
 		
-		className: 'container',
+		className: 'container-fluid',
 		
 		//Fetch DataSets and bind view functions to collection events. Initialize class variables to DOM elements with jquery objects.
 		initialize: function(options) {

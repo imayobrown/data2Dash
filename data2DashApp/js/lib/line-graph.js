@@ -28,7 +28,7 @@ define(['d3'],
 			
 			var y = d3.scale.linear()
 				.range([height, 0])
-				.domain([0,10]); //TODO: come up with a better way to find max y domain value on all curves
+				.domain([0,30]); //TODO: come up with a better way to find max y domain value on all curves
 				//.domain(d3.extent(dummyData, function(d) { return d[1]; }));
 			
 			/* d3 v4.0
@@ -68,8 +68,8 @@ define(['d3'],
 			
 			for (var i = 0; i < numOfLines; i++) {
 				var line = d3.svg.line()
-					.x(function(d) {return d[0];})
-					.y(function(d) {return d[i+1];});
+					.x(function(d) {return x(d[0]);})
+					.y(function(d) {return y(d[i+1]);});
 				
 				svg.append('path')
 					.datum(data)

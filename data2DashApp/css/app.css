@@ -4,12 +4,13 @@
 }
 
 div.app-view.data-graph > div.col-lg-12 >
-div.chart-wrapper > div.chart-stage {
+div.graph-wrapper > div.graph-stage {
 	height: 400px;
 }
 
-.chart-stage {
+.graph-stage {
 	position: relative;
+	margin-bottom: 50px;
 }
 
 div.logo {
@@ -54,4 +55,13 @@ h3 a {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
+}
+
+#graph-table-div td {
+	font-size: 10px;
+}
+
+#graph-table-div th {
+	font-size: 11px;
+	border: black solid 1px;
 }

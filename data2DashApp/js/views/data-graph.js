@@ -29,8 +29,6 @@ define(['underscore', 'jquery', 'backbone', 'datatables.net', 'data-set', 'text!
 		
 		render: function() {
 			
-			console.log(Template);
-			
 			this.$el.html(_.template(Template));
 			
 			return this;
@@ -49,47 +47,91 @@ define(['underscore', 'jquery', 'backbone', 'datatables.net', 'data-set', 'text!
 			//console.log(this.model.get('data'));
 			var data = this.model.get('data');
 			var parsedData = d3.csv.parseRows(data);
-			LineGraph.lineGraph('div.graph-stage', parsedData); //Render chart and add to DOM
+			LineGraph.lineGraph('div.graph-stage', parsedData.slice(1,parsedData.length)); //Render chart and add to DOM
 		},
 		
 		drawTable: function() {
 			var csvData = this.model.get('data');
-			var dataSet = d3.csv.parseRows(csvData, function(d) {
-				var result = [];
-				d.forEach(function(currentValue, index, array) {
-					result.push(currentValue);
-				});
-				
-				return result;
-				
+			
+			var data = d3.csv.parseRows(csvData);
+			
+			var titles = data[0];
+			var dataSet = data.slice(1, data.length);
+			
+			var traceSet = [];
+			titles.slice(1, titles.length).forEach(function(currentValue, index, array) { traceSet.push(new Array()); });
+			
+			dataSet.forEach(function(currentValue, index, array) {
+				for (var i = 1; i < currentValue.length; i++) {
+					var set = [ currentValue[0], currentValue[i] ];
+					traceSet[i - 1].push(set);
+				}
 			});
 			
-			
-			if (this.table) {
-				console.log('attempting to destroy table');
-				this.table.destroy();
-				console.log('table destroyed');
+			//Dynamically add tab and table for each data trace present in csv json data in model
+			for (var i = 1; i < titles.length; i++) {
+				
+				var liAttrObject = {
+						class: function() {
+							if (i == 1) {
+								return "active";
+							}
+							else {
+								return "";
+							}
+						}
+				};
+				
+				var aAttrObject = {
+						href: "#trace" + i,
+						text: "Trace " + i,
+				};
+				
+				var divAttrObject = {
+						id: "trace" + i,
+						class: function() {
+							if (i == 1) {
+								return "tab-pane fade in active";
+							}
+							else {
+								return "tab-pane fade";
+							}
+						},
+				};
+				
+				var tableAttrObject = {
+						class: "cell-border dt-body-center",
+						id: "trace" + i + "-table",
+						//html: "<thead></thead><tbody></tbody>",
+				};
+				
+				//Bind click event to <a> because otherwise it will attempt to change the url and on url change Backbone attempts a reroute
+				var newListObject = $('<li>', liAttrObject).append($('<a>', aAttrObject).click(function(e) {
+					e.preventDefault();
+					$(this).tab('show');
+				})
+				.on( 'shown.bs.tab', function(e) {
+					$.fn.dataTable.tables( {visible: true, api: true} ).columns.adjust(); //On event where tab becomes the one shown, readjust the column widths so that the headers line up correctly with thier corresponding column
+				}));
+				var newDivObject = $('<div>', divAttrObject).append($('<table>', tableAttrObject));
+				
+				$('#table-tab-headers').append(newListObject);
+				$('#table-tab-content').append(newDivObject);
+				
 			}
 			
-			
-			columns = [
-			           {title: '1'},
-			           {title: '2'},
-			           //{title: '3'},
-			           //{title: '4'},
-			           //{title: '5'}
-			           ];
-			
-			
-			this.table = $('#graph-table').DataTable({
-				'data': dataSet, 
-				'columns': columns,
-				'paging': false,
-				'scrollY': true,
-				'ordering': false,
-				'searching': false,
-				'info': false,
+			//If tables are already in view destroy them so they can be rerendered
+			if (this.tables) {
+				this.tables.forEach(function(currentValue, index, array) {
+					currentValue.destroy();
 				});
+			}
+			
+			//Render tables and return array of references
+			this.tables = traceSet.map(function(currentValue, index, array) {
+				return $("#trace" + (index + 1) + "-table").DataTable({'data': currentValue, 'columns': [ { title: titles[0] }, { title: titles[index + 1] } ], 'paging': false, 'scrollY': true, 'ordering': false, 'searching': false, 'info': false});
+			});
+			
 			
 		},
 		

@@ -61,7 +61,11 @@ h3 a {
 	font-size: 10px;
 }
 
-#graph-table-div th {
+#graph-table-container th {
 	font-size: 11px;
 	border: black solid 1px;
+}
+
+.dataTables_wrapper div {
+	width: 100%;
 }

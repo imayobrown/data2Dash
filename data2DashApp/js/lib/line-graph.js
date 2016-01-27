@@ -7,6 +7,14 @@ define(['d3'],
 			
 			var numOfLines = data[0].length - 1;
 
+			var domain = data.map(function(currentValue, index, array) {
+				return currentValue[0];
+			});
+			
+			var range = data.reduce(function(previousValue, currentValue, index, array) {
+				var newValue = previousValue.concat(currentValue.slice(1, currentValue.length));
+				return newValue;
+			}).slice(1, this.length); //Reduce all range points to single array and then remove first element of array because it is still a domain point
 			
 			var margin = {top: 20, right: 20, bottom: 30, left: 50},
 		    	width = 960 - margin.left - margin.right,
@@ -23,12 +31,12 @@ define(['d3'],
 			//d3 v3.5
 			var x = d3.scale.linear()
 				.range([0, width])
-				.domain([0,10]); //TODO: come up with a better way to find max x domain value on all curves
+				.domain(d3.extent(domain, function(d) {return +d; })); //TODO: come up with a better way to find max x domain value on all curves
 				//.domain(d3.extent(dummyData, function(d) { return d[0]; }));
 			
 			var y = d3.scale.linear()
 				.range([height, 0])
-				.domain([0,30]); //TODO: come up with a better way to find max y domain value on all curves
+				.domain(d3.extent(range, function(d) { return +d; })); //TODO: come up with a better way to find max y domain value on all curves
 				//.domain(d3.extent(dummyData, function(d) { return d[1]; }));
 			
 			/* d3 v4.0

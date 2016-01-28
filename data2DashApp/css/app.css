@@ -51,11 +51,13 @@ h3 a {
   text-anchor: end;
 }
 
+/*
 .line {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
 }
+*/
 
 #graph-table-div td {
 	font-size: 10px;

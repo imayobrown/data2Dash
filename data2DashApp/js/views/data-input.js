@@ -1,4 +1,4 @@
-define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-input.html'], function(_, $, Backbone, DataSet, Template) {
+define(['underscore', 'jquery', 'backbone', 'dropzone', 'data-set', 'text!templates/data-input.html'], function(_, $, Backbone, Dropzone, DataSet, Template) {
 	
 	var dataInput = Backbone.View.extend({
 		
@@ -22,6 +22,8 @@ define(['underscore', 'jquery', 'backbone', 'data-set', 'text!templates/data-inp
 		render: function() {
 			//Set html for view to be rendered template
 			this.$el.html(this.template());
+
+			this.dropzone = new Dropzone('#file-upload-dropzone');
 			
 			//Return view so actions on it can be chained from render
 			return this;

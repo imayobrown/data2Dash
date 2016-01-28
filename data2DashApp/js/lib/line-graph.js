@@ -74,6 +74,9 @@ define(['d3'],
 			    .attr("class", "axis axis--y")
 			    .call(yAxis);
 			
+			//Hard coded line colors: so far 6 colors
+			var lineColors = ['#FF0000', '#0000FF', '#00FF00', '#FFFF00', '#00FFFF', '#FF00FF'];
+			
 			for (var i = 0; i < numOfLines; i++) {
 				var line = d3.svg.line()
 					.x(function(d) {return x(d[0]);})
@@ -82,7 +85,8 @@ define(['d3'],
 				svg.append('path')
 					.datum(data)
 					.attr('class', 'line')
-					.attr('d', line);
+					.attr('d', line)
+					.attr('stroke', lineColors[i]); //Generate random line color
 			}
 			
 			/*

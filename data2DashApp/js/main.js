@@ -10,6 +10,7 @@ require.config({
 	
 	paths: {
 		jquery: 'plugins/jquery.min',
+		dropzone: 'plugins/dropzone',
 		bootstrap: 'plugins/bootstrap.min',
 		backbone: 'plugins/backbone',
 		underscore: 'plugins/underscore-min',

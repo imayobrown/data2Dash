@@ -51,6 +51,11 @@ define(['underscore', 'jquery', 'backbone', 'datatables.net', 'data-set', 'text!
 		},
 		
 		drawTable: function() {
+			/*
+			 * This function looks at the data in the model and dynamically adds tabs and tables to the view depending on how many traces
+			 * are present in the data set.
+			 */
+			
 			var csvData = this.model.get('data');
 			
 			var data = d3.csv.parseRows(csvData);
@@ -67,6 +72,10 @@ define(['underscore', 'jquery', 'backbone', 'datatables.net', 'data-set', 'text!
 					traceSet[i - 1].push(set);
 				}
 			});
+			
+			//Empty/remove tabs before adding them
+			$('#table-tab-headers').empty();
+			$('#table-tab-content').empty();
 			
 			//Dynamically add tab and table for each data trace present in csv json data in model
 			for (var i = 1; i < titles.length; i++) {

@@ -15,5 +15,5 @@ define(['underscore', 'backbone', 'data-set'], function(_, Backbone, DataSet) {
 		
 	});
 	
-	return new dataSetCollection;
+	return new dataSetCollection();
 });

@@ -39,6 +39,8 @@ define(['underscore','jquery', 'backbone', 'text!templates/data-table.html', 'da
 				this.table.destroy(); //Destroy table so that it can be remade on rerenders
 			}
 			
+			console.log(this.dataSets.models);
+			
 			//Initialize table
 			this.table = this.$('#data-set-table').DataTable({'columns': columns, 'data': this.dataSets.models, select: {style: 'single', blurable: true}});
 			

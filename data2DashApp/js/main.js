@@ -2,8 +2,6 @@ require.config({
 	
 	shim: {
 		bootstrap: ['jquery'],
-		//flot: ['jquery'],
-		//'flot-resize': ['jquery', 'flot'],
 		'datatables.net': ['jquery'],
 		'datatables.select': ['jquery', 'datatables.net'],
 	},
